@@ -32,7 +32,7 @@ class LineNumberedBorder extends AbstractBorder {
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 		JTextArea textArea = (JTextArea) c;
-		Font font = c.getFont();
+		Font font = textArea.getFont();
 		FontMetrics metrics = g.getFontMetrics(font);
 		lineHeight = metrics.getHeight();
 
@@ -61,7 +61,7 @@ class LineNumberedBorder extends AbstractBorder {
 			g.drawString(str, px, py);
 		}
 
-		int left = calculateLeft(height) + 2;
+		int left = calculateLeft(height) + 10;
 		g.drawLine(left, 0, left, height);
 
 		g.setColor(oldColor);
@@ -69,7 +69,7 @@ class LineNumberedBorder extends AbstractBorder {
 
 	@Override
 	public Insets getBorderInsets(Component c) {
-		int left = calculateLeft(c.getHeight()) + 5;
+		int left = calculateLeft(c.getHeight()) + 13;
 		return new Insets(1, left, 1, 1);
 	}
 
