@@ -55,7 +55,7 @@ class NumberedBorder extends AbstractBorder {
 			lenght = str.length();
 
 			py = lineHeight * i + 14;
-			px = lineLeft - (characterWidth * lenght);
+			px = lineLeft - (characterWidth * lenght) - 2;
 
 			g.drawString(str, px, py);
 		}
