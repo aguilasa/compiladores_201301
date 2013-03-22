@@ -13,7 +13,7 @@ import javax.swing.border.AbstractBorder;
 /**
  * retirado e adaptado de: http://www.guj.com.br/posts/list/123003.java#665398 <br>
  */
-class LineNumberedBorder extends AbstractBorder {
+class NumberedBorder extends AbstractBorder {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ class LineNumberedBorder extends AbstractBorder {
 	private final int characterWidth = 7;
 	private final Color myColor;
 
-	LineNumberedBorder() {
+	NumberedBorder() {
 		myColor = new Color(164, 164, 164);
 	}
 

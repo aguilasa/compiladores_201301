@@ -90,7 +90,7 @@ public class Compilador {
 
 		textEditor.setColumns(20);
 		textEditor.setRows(5);
-		textEditor.setBorder(new LineNumberedBorder());
+		textEditor.setBorder(new NumberedBorder());
 
 		textMessages.setColumns(20);
 		textMessages.setRows(6);
