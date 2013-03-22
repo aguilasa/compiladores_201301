@@ -42,7 +42,8 @@ class LineNumberedBorder extends AbstractBorder {
 		double r = (double) height / (double) lineHeight;
 		int rows = (int) (r + 0.5);
 		String str = String.valueOf(rows);
-		int lastNumberLenght = str.length();
+		int maxLenght = str.length();
+		int lineLeft = calculateLeft(height) + 10;
 
 		int px = 0;
 		int py = 0;
@@ -53,16 +54,14 @@ class LineNumberedBorder extends AbstractBorder {
 
 			str = String.valueOf(i + 1);
 			lenght = str.length();
-			lenght = lastNumberLenght - lenght;
 
 			py = lineHeight * i + 14;
-			px = characterWidth * lenght + 2;
+			px = lineLeft - (characterWidth * lenght);
 
 			g.drawString(str, px, py);
 		}
 
-		int left = calculateLeft(height) + 10;
-		g.drawLine(left, 0, left, height);
+		g.drawLine(lineLeft, 0, lineLeft, height);
 
 		g.setColor(oldColor);
 	}
