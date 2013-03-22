@@ -42,7 +42,6 @@ class LineNumberedBorder extends AbstractBorder {
 		double r = (double) height / (double) lineHeight;
 		int rows = (int) (r + 0.5);
 		String str = String.valueOf(rows);
-		int maxLenght = str.length();
 		int lineLeft = calculateLeft(height) + 10;
 
 		int px = 0;
