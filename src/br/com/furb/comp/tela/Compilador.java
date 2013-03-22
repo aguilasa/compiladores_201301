@@ -137,15 +137,9 @@ public class Compilador {
 
 		ResourceManager resMan = ResourceManager.getInstance();
 
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textMessages.setText("Equipe:\nIngmar Schmidt de Aguiar");
-			}
-		};
-		addButton(toolBar, resMan, "novo", "<html><center>novo<br>[ctrl-n]</center></html>", KeyEvent.VK_N, InputEvent.CTRL_MASK, ac);
-		addButton(toolBar, resMan, "abrir", "<html><center>abrir<br>[ctrl-a]</center></html>", KeyEvent.VK_A, InputEvent.CTRL_MASK, ac);
-		addButton(toolBar, resMan, "salvar", "<html><center>salvar<br>[ctrl-s]</center></html>", KeyEvent.VK_S, InputEvent.CTRL_MASK, ac);
+		addButton(toolBar, resMan, "novo", "<html><center>novo<br>[ctrl-n]</center></html>", KeyEvent.VK_N, InputEvent.CTRL_MASK, listenerNovo());
+		addButton(toolBar, resMan, "abrir", "<html><center>abrir<br>[ctrl-a]</center></html>", KeyEvent.VK_A, InputEvent.CTRL_MASK, listenerAbrir());
+		addButton(toolBar, resMan, "salvar", "<html><center>salvar<br>[ctrl-s]</center></html>", KeyEvent.VK_S, InputEvent.CTRL_MASK, listenerSalvar());
 		addButton(toolBar, resMan, "copiar", "<html><center>copiar<br>[crtl-c]</center></html>", KeyEvent.VK_C, InputEvent.CTRL_MASK, new CopyAction());
 		addButton(toolBar, resMan, "colar", "<html><center>colar<br>[ctrl-v]</center></html>", KeyEvent.VK_V, InputEvent.CTRL_MASK, new PasteAction());
 		addButton(toolBar, resMan, "recortar", "<html><center>recortar<br>[ctrl-x]</center></html>", KeyEvent.VK_X, InputEvent.CTRL_MASK, new CutAction());
@@ -181,6 +175,37 @@ public class Compilador {
 
 	private void registerAction(JButton aButton, int aKey, int aModifier) {
 		aButton.registerKeyboardAction(aButton.getActionListeners()[0], KeyStroke.getKeyStroke(aKey, aModifier), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	}
+	
+	private ActionListener listenerNovo() {
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO
+				statusBar.setStatusText(NAOMODIFICADO);
+			}
+		};
+	}
+	
+	private ActionListener listenerAbrir() {
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO		
+			}
+		};
+	}
+	
+	private ActionListener listenerSalvar() {
+		return new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO				
+			}
+		};
 	}
 	
 	private ActionListener listenerCompilar() {
