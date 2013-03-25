@@ -48,7 +48,15 @@ public class JStatusBar extends JPanel {
 		lblStatus.setText(aText);
 	}
 	
+	public String getStatusText() {
+		return lblStatus.getText();
+	}
+	
 	public void setArquivoText(String aText) {
 		lblArquivo.setText(aText);
+	}
+	
+	public String getArquivoText() {
+		return lblArquivo.getText();
 	}
 }
