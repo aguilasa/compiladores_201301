@@ -7,8 +7,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,6 +51,7 @@ public class Compilador {
 
 	private StringBuilder sbEditor;
 	private String statusAnterior;
+	private String arquivoAnterior;
 
 	/**
 	 * Launch the application.
@@ -213,7 +216,7 @@ public class Compilador {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO
+				salvar();
 			}
 		};
 	}
@@ -284,11 +287,13 @@ public class Compilador {
 	private void guardaStatus() {
 		sbEditor = new StringBuilder(textEditor.getText());
 		statusAnterior = statusBar.getStatusText();
+		arquivoAnterior = statusBar.getArquivoText();
 	}
 
 	private void recuperaStatus() {
 		textEditor.setText((sbEditor != null ? sbEditor.toString() : ""));
 		modificar(statusAnterior);
+		statusBar.setArquivoText(arquivoAnterior);
 	}
 
 	private void abrir() {
@@ -321,6 +326,7 @@ public class Compilador {
 					}
 					textMessages.setText("");
 					modificar(NAOMODIFICADO);
+					statusBar.setArquivoText(nomeArquivo);
 				} catch (Exception e1) {
 					erro = true;
 					JOptionPane.showMessageDialog(frame, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -331,5 +337,33 @@ public class Compilador {
 		if (erro) {
 			recuperaStatus();
 		}
+	}
+	
+	private void salvar() {
+		String nomeArquivo = statusBar.getArquivoText();
+		//arquivo novo		
+		if (nomeArquivo.isEmpty()) {
+						
+		}
+		
+		File file = new File(nomeArquivo);
+
+		if (!file.exists()) {
+			if (!file.createNewFile()) {
+				throw new Exception("Não foi possível criar o arquivo!");
+			}
+		}
+
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(file);
+			writer.write(textEditor.getText());
+		} finally {
+			if (writer != null) {
+				writer.flush();
+				writer.close();
+			}
+		}
+		
 	}
 }
