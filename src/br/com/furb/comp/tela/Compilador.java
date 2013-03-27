@@ -19,6 +19,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -32,6 +33,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 import javax.swing.text.DefaultEditorKit.CopyAction;
 import javax.swing.text.DefaultEditorKit.CutAction;
 import javax.swing.text.DefaultEditorKit.PasteAction;
@@ -42,6 +44,7 @@ public class Compilador {
 
 	private static final String MODIFICADO = "Modificado";
 	private static final String NAOMODIFICADO = "Não modificado";
+	private static final String EXTENSAO = "ing";
 	private JFrame frame;
 	private JTextArea textEditor;
 	private JTextArea textMessages;
@@ -50,6 +53,7 @@ public class Compilador {
 	private JSeparator separador;
 
 	private StringBuilder sbEditor;
+	private StringBuilder sbMessages;
 	private String statusAnterior;
 	private String arquivoAnterior;
 
@@ -216,7 +220,14 @@ public class Compilador {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				salvar();
+				guardaStatus();
+				try {
+					salvar();
+				} catch (IOException e1) {
+					recuperaStatus();
+				} catch (Exception e1) {
+					recuperaStatus();
+				}
 			}
 		};
 	}
@@ -270,7 +281,7 @@ public class Compilador {
 		limparStatus();
 	}
 
-	Pattern pattern = Pattern.compile("([^\\s]+(\\.(ing))$)");
+	Pattern pattern = Pattern.compile("([^\\s]+(\\.(" + EXTENSAO + "))$)");
 
 	private boolean validaNomeArquivo(String nome) {
 		if (nome == null || nome.isEmpty()) {
@@ -286,12 +297,14 @@ public class Compilador {
 
 	private void guardaStatus() {
 		sbEditor = new StringBuilder(textEditor.getText());
+		sbMessages = new StringBuilder(textMessages.getText());
 		statusAnterior = statusBar.getStatusText();
 		arquivoAnterior = statusBar.getArquivoText();
 	}
 
 	private void recuperaStatus() {
 		textEditor.setText((sbEditor != null ? sbEditor.toString() : ""));
+		textMessages.setText((sbMessages != null ? sbMessages.toString() : ""));
 		modificar(statusAnterior);
 		statusBar.setArquivoText(arquivoAnterior);
 	}
@@ -333,19 +346,30 @@ public class Compilador {
 				}
 			}
 		}
-		
+
 		if (erro) {
 			recuperaStatus();
 		}
 	}
-	
-	private void salvar() {
+
+	private void salvar() throws IOException, Exception {
 		String nomeArquivo = statusBar.getArquivoText();
-		//arquivo novo		
+		// arquivo novo
 		if (nomeArquivo.isEmpty()) {
-						
+			DialogoSalvar ds = new DialogoSalvar();
+
+			if (ds.showDialog(null, "Salvar") == DialogoSalvar.APPROVE_OPTION) {
+				nomeArquivo = ds.getSelectedFile().getPath();
+				if (!validaNomeArquivo(nomeArquivo)) {
+					nomeArquivo += "." + EXTENSAO;
+				}
+			}
+			textMessages.setText("");
 		}
-		
+
+		modificar(NAOMODIFICADO);
+		statusBar.setArquivoText(nomeArquivo);
+
 		File file = new File(nomeArquivo);
 
 		if (!file.exists()) {
@@ -364,6 +388,6 @@ public class Compilador {
 				writer.close();
 			}
 		}
-		
+
 	}
 }
