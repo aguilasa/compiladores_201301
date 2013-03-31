@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,9 +18,9 @@ import java.util.regex.Pattern;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -33,7 +34,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 import javax.swing.text.DefaultEditorKit.CopyAction;
 import javax.swing.text.DefaultEditorKit.CutAction;
 import javax.swing.text.DefaultEditorKit.PasteAction;
@@ -105,6 +105,17 @@ public class Compilador {
 		JScrollPane scrollPane1 = new JScrollPane();
 		JScrollPane scrollPane2 = new JScrollPane();
 
+		ResourceManager resMan = ResourceManager.getInstance();
+		addButton(toolBar, resMan, "novo", "novo", "[ctrl-n]", KeyEvent.VK_N, InputEvent.CTRL_MASK, listenerNovo());
+		addButton(toolBar, resMan, "abrir", "abrir", "[ctrl-a]", KeyEvent.VK_A, InputEvent.CTRL_MASK, listenerAbrir());
+		addButton(toolBar, resMan, "salvar", "salvar", "[ctrl-s]", KeyEvent.VK_S, InputEvent.CTRL_MASK, listenerSalvar());
+		addButton(toolBar, resMan, "copiar", "copiar", "[crtl-c]", KeyEvent.VK_C, InputEvent.CTRL_MASK, new CopyAction());
+		addButton(toolBar, resMan, "colar", "colar", "[ctrl-v]", KeyEvent.VK_V, InputEvent.CTRL_MASK, new PasteAction());
+		addButton(toolBar, resMan, "recortar", "recortar", "[ctrl-x]", KeyEvent.VK_X, InputEvent.CTRL_MASK, new CutAction());
+		addButton(toolBar, resMan, "compilar", "compilar", "[F8]", KeyEvent.VK_F8, 0, listenerCompilar());
+		addButton(toolBar, resMan, "gerar", "gerar código", "[F9]", KeyEvent.VK_F9, 0, listenerGerarCodigo());
+		addButton(toolBar, resMan, "equipe", "equipe", "[F1]", KeyEvent.VK_F1, 0, listenerEquipe());
+
 		scrollPane1.setViewportView(textMessages);
 		scrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -131,6 +142,25 @@ public class Compilador {
 			}
 		});
 
+		textEditor.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getModifiersEx() == InputEvent.CTRL_DOWN_MASK && e.getKeyCode() == KeyEvent.VK_A) {
+					abrir();
+					e.consume();
+				}
+			}
+		});
+
 		textMessages.setColumns(20);
 		textMessages.setRows(5);
 		textMessages.setEditable(false);
@@ -153,19 +183,14 @@ public class Compilador {
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
 
-		ResourceManager resMan = ResourceManager.getInstance();
-
-		addButton(toolBar, resMan, "novo", "<html><center>novo<br>[ctrl-n]</center></html>", KeyEvent.VK_N, InputEvent.CTRL_MASK, listenerNovo());
-		addButton(toolBar, resMan, "abrir", "<html><center>abrir<br>[ctrl-a]</center></html>", KeyEvent.VK_A, InputEvent.CTRL_MASK, listenerAbrir());
-		addButton(toolBar, resMan, "salvar", "<html><center>salvar<br>[ctrl-s]</center></html>", KeyEvent.VK_S, InputEvent.CTRL_MASK, listenerSalvar());
-		addButton(toolBar, resMan, "copiar", "<html><center>copiar<br>[crtl-c]</center></html>", KeyEvent.VK_C, InputEvent.CTRL_MASK, new CopyAction());
-		addButton(toolBar, resMan, "colar", "<html><center>colar<br>[ctrl-v]</center></html>", KeyEvent.VK_V, InputEvent.CTRL_MASK, new PasteAction());
-		addButton(toolBar, resMan, "recortar", "<html><center>recortar<br>[ctrl-x]</center></html>", KeyEvent.VK_X, InputEvent.CTRL_MASK, new CutAction());
-		addButton(toolBar, resMan, "compilar", "<html><center>compilar<br>[F8]</center></html>", KeyEvent.VK_F8, 0, listenerCompilar());
-		addButton(toolBar, resMan, "gerar", "<html><center>gerar código<br>[F9]</center></html>", KeyEvent.VK_F9, 0, listenerGerarCodigo());
-		addButton(toolBar, resMan, "equipe", "<html><center>equipe<br>[F1]</center></html>", KeyEvent.VK_F1, 0, listenerEquipe());
-
 		frame.getContentPane().setLayout(groupLayout);
+		
+		ImageIcon icone = (ImageIcon) resMan.loadImageIcon("icone");
+		if (icone != null) {
+			frame.setIconImage(icone.getImage());
+		}
+		
+		frame.setTitle("Compilador");
 	}
 
 	private void setLook() {
@@ -177,11 +202,12 @@ public class Compilador {
 
 	}
 
-	private void addButton(JToolBar tb, ResourceManager aManager, String aImage, String aText, int aAccessKey, int aModifier, ActionListener aListener) {
+	private void addButton(JToolBar tb, ResourceManager aManager, String aImage, String aLabel, String aHotKeyDesc, int aAccessKey, int aModifier,
+			ActionListener aListener) {
 		JButton xButton = new JButton();
 
 		xButton.setIcon(aManager.loadImageIcon(aImage));
-		xButton.setText(aText);
+		xButton.setText(String.format("<html><div style=\"text-align:center\">%s<br>%s</div></html>", aLabel, aHotKeyDesc));
 		xButton.setFocusable(false);
 		xButton.setHorizontalTextPosition(SwingConstants.CENTER);
 		xButton.setVerticalTextPosition(SwingConstants.BOTTOM);

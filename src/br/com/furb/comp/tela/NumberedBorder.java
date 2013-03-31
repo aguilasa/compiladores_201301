@@ -26,7 +26,7 @@ class NumberedBorder extends AbstractBorder {
 	private final Color myColor;
 
 	NumberedBorder() {
-		myColor = new Color(164, 164, 164);
+		myColor = new Color(120, 120, 120);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ class NumberedBorder extends AbstractBorder {
 
 		Color oldColor = g.getColor();
 		g.setColor(myColor);
-
+		
 		double r = (double) height / (double) lineHeight;
 		int rows = (int) (r + 0.5);
 		String str = String.valueOf(rows);
