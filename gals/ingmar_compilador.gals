@@ -1,0 +1,75 @@
+#Options
+GenerateScanner = true
+GenerateParser = false
+Language = Java
+ScannerName = Lexico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+#RegularDefinitions
+mai: [A-Z]
+min: [a-z]
+dig: [0-9]
+letras: [a-zA-Z]
+com_bloco: \{[^\}]*\}
+com_linha: \\\\[^\n]*
+
+#Tokens
+palavra_reservada: {min}+ ({mai} {min}+)*
+
+id_int: i_{letras}({letras} | {dig} | _ )*
+
+id_float: f_{letras}({letras} | {dig} | _ )*
+
+id_string: s_{letras}({letras} | {dig} | _ )*
+
+id_bool: b_{letras}({letras} | {dig} | _ )*
+
+const_int: {dig}+
+
+const_float: {dig}+,{dig}+
+
+const_string: \"[^\n\"]*\"
+
+//ignorar comentários e espaços em branco
+:!{com_bloco}
+:!{com_linha}
+: [\ \t\n\r]
+
+
+//palavras reservadas
+and = palavra_reservada : "and"
+false = palavra_reservada : "false"
+if = palavra_reservada : "if"
+in = palavra_reservada : "in"
+isfalsedo = palavra_reservada : "isFalseDo"
+istruedo = palavra_reservada : "isTrueDo"
+main = palavra_reservada : "main"
+module = palavra_reservada : "module"
+not = palavra_reservada : "not"
+or = palavra_reservada : "or"
+out = palavra_reservada : "out"
+return = palavra_reservada : "return"
+true = palavra_reservada : "true"
+while = palavra_reservada : "while"
+
+//símbolos especiais
+","
+":"
+";"
+"["
+"]"
+"("
+")"
+"+"
+"-"
+"*"
+"/"
+"<-"
+"="
+"!="
+"<"
+"<="
+">"
+">="
+
