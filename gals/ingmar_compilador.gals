@@ -3,9 +3,10 @@ GenerateScanner = true
 GenerateParser = false
 Language = Java
 ScannerName = Lexico
+Package = br.com.furb.comp.gals
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 #RegularDefinitions
 mai: [A-Z]
 min: [a-z]

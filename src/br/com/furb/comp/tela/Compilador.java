@@ -38,6 +38,9 @@ import javax.swing.text.DefaultEditorKit.CopyAction;
 import javax.swing.text.DefaultEditorKit.CutAction;
 import javax.swing.text.DefaultEditorKit.PasteAction;
 
+import br.com.furb.comp.gals.LexicalError;
+import br.com.furb.comp.gals.Lexico;
+import br.com.furb.comp.gals.Token;
 import br.com.furb.comp.util.ResourceManager;
 
 public class Compilador {
@@ -184,12 +187,12 @@ public class Compilador {
 						.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
 
 		frame.getContentPane().setLayout(groupLayout);
-		
+
 		ImageIcon icone = (ImageIcon) resMan.loadImageIcon("icone");
 		if (icone != null) {
 			frame.setIconImage(icone.getImage());
 		}
-		
+
 		frame.setTitle("Compilador");
 	}
 
@@ -263,7 +266,7 @@ public class Compilador {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textMessages.setText("compilação de programas ainda não foi implementada");
+				compilar();
 			}
 		};
 	}
@@ -414,6 +417,20 @@ public class Compilador {
 				writer.close();
 			}
 		}
+	}
 
+	private void compilar() {
+		textMessages.setText("");
+		Lexico lexico = new Lexico();
+		lexico.setInput(textEditor.getText());
+
+		try {
+			Token t = null;
+			while ((t = lexico.nextToken()) != null) {
+				System.out.println(t.getLexeme());
+			}
+		} catch (LexicalError e) {
+			textMessages.setText(e.getMessage() + " em " + e.getLine());
+		}
 	}
 }
