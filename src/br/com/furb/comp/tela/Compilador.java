@@ -421,16 +421,24 @@ public class Compilador {
 
 	private void compilar() {
 		textMessages.setText("");
+		StringBuilder sbMessages = new StringBuilder();
+		sbMessages.append("linha\tclasse\tlexema");
 		Lexico lexico = new Lexico();
 		lexico.setInput(textEditor.getText());
 
 		try {
 			Token t = null;
 			while ((t = lexico.nextToken()) != null) {
-				System.out.println(t.getLexeme());
+				sbMessages.append("\n");
+				sbMessages.append(t.getLine());
+				sbMessages.append("\t");
+				sbMessages.append(t.getId());
+				sbMessages.append("\t");
+				sbMessages.append(t.getLexeme());
 			}
 		} catch (LexicalError e) {
-			textMessages.setText(e.getMessage() + " em " + e.getLine());
+			sbMessages = new StringBuilder(e.getMessage() + " em " + e.getLine());
 		}
+		textMessages.setText(sbMessages.toString());
 	}
 }

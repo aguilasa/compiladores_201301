@@ -2,6 +2,7 @@ package br.com.furb.comp.gals;
 
 public class Lexico implements Constants {
 	private int position;
+	private int lposition = -1;
 	private String input;
 	private int line;
 
@@ -16,7 +17,7 @@ public class Lexico implements Constants {
 	public void setInput(String input) {
 		this.input = input;
 		setPosition(0);
-		setLine(0);
+		setLine(1);
 	}
 
 	public void setPosition(int pos) {
@@ -120,10 +121,12 @@ public class Lexico implements Constants {
 
 	private char nextChar() {
 		if (hasInput()) {
-			char c = input.charAt(position++);
-			if (c == '\n') {
+			char c = input.charAt(position);
+			if (c == '\n' && position != lposition) {
+				lposition = position;
 				line++;
 			}
+			position++;
 			return c;
 		} else
 			return (char) -1;
