@@ -432,7 +432,7 @@ public class Compilador {
 				sbMessages.append("\n");
 				sbMessages.append(t.getLine());
 				sbMessages.append("\t");
-				sbMessages.append(t.getId());
+				sbMessages.append(t.getClasse());
 				sbMessages.append("\t");
 				sbMessages.append(t.getLexeme());
 			}

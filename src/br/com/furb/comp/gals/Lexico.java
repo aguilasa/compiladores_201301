@@ -65,8 +65,37 @@ public class Lexico implements Constants {
 		else {
 			String lexeme = input.substring(start, end);
 			token = lookupToken(token, lexeme);
-			return new Token(token, lexeme, start, line);
+			String classe = defineClasse(token);
+
+			return new Token(token, lexeme, start, line, classe);
 		}
+	}
+
+	private String defineClasse(int token) {
+		switch (token) {
+		case t_palavra_reservada:
+			return "palavra reservada";
+		case t_id_int:
+		case t_id_float:
+		case t_id_string:
+		case t_id_bool:
+			return "identificador";
+		case t_const_int:
+			return "constante inteira";
+		case t_const_float:
+			return "constante real";
+		case t_const_string:
+			return "constante literal";
+		default: {
+			if (token >= t_and && token <= t_while) {
+				return "palavra reservada";
+			} else if (token >= t_TOKEN_24) {
+				return "símbolo especial";
+			}
+		}
+
+		}
+		return "classe não definida";
 	}
 
 	private int nextState(char c, int state) {

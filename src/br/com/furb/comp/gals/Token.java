@@ -6,13 +6,15 @@ public class Token
     private String lexeme;
     private int position;
     private int line;
+    private String classe = "";
 
-    public Token(int id, String lexeme, int position, int line)
+    public Token(int id, String lexeme, int position, int line, String classe)
     {
         this.id = id;
         this.lexeme = lexeme;
         this.position = position;
         this.line = line;
+        this.classe = classe;
     }
 
     public final int getId()
@@ -32,6 +34,10 @@ public class Token
     
     public final int getLine() {
     	return line;
+    }
+    
+    public final String getClasse() {
+    	return classe;
     }
 
     public String toString()
