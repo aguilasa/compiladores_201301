@@ -95,7 +95,7 @@ public class Compilador {
 
 		toolBar = new JToolBar();
 		toolBar.setRollover(true);
-		toolBar.setFloatable(true);
+		toolBar.setFloatable(false);
 
 		statusBar = new JStatusBar();
 
@@ -429,6 +429,10 @@ public class Compilador {
 		try {
 			Token t = null;
 			while ((t = lexico.nextToken()) != null) {
+				/* caso especial de palavra reservada fora da lista das especificadas */
+				if (t.getId() == 2) {
+					throw new LexicalError("Erro na linha " + t.getLine() + " - " + t.getLexeme() + " palavra reservada inválida", t.getPosition(), t.getLine());
+				}
 				sbMessages.append("\n");
 				sbMessages.append(t.getLine());
 				sbMessages.append("\t");
@@ -437,7 +441,7 @@ public class Compilador {
 				sbMessages.append(t.getLexeme());
 			}
 		} catch (LexicalError e) {
-			sbMessages = new StringBuilder(e.getMessage() + " em " + e.getLine());
+			sbMessages = new StringBuilder(e.getMessage());
 		}
 		textMessages.setText(sbMessages.toString());
 	}
