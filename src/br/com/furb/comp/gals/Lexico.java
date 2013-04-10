@@ -2,9 +2,7 @@ package br.com.furb.comp.gals;
 
 public class Lexico implements Constants {
 	private int position;
-	private int lposition = -1;
 	private String input;
-	private int line;
 
 	public Lexico() {
 		this("");
@@ -17,15 +15,11 @@ public class Lexico implements Constants {
 	public void setInput(String input) {
 		this.input = input;
 		setPosition(0);
-		setLine(1);
+		Linhas.getInstance().setTexto(input);
 	}
 
 	public void setPosition(int pos) {
 		position = pos;
-	}
-
-	public void setLine(int l) {
-		line = l;
 	}
 
 	public Token nextToken() throws LexicalError {
@@ -55,13 +49,14 @@ public class Lexico implements Constants {
 		}
 		if (endState < 0 || (endState != state && tokenForState(lastState) == -2)) {
 			String simbolo = input.substring(start, position);
-			String erro = "Erro na linha " + line + " - ";
+			int linha = Linhas.getInstance().getLinha(start);
+			String erro = "Erro na linha " + linha + " - ";
 			switch(lastState) {
 			case 0:
 				erro += simbolo + " ";
 				break;
 			}
-			throw new LexicalError(erro + SCANNER_ERROR[lastState], start, line);
+			throw new LexicalError(erro + SCANNER_ERROR[lastState], start, linha);
 		}
 
 		position = end;
@@ -75,7 +70,7 @@ public class Lexico implements Constants {
 			token = lookupToken(token, lexeme);
 			String classe = defineClasse(token);
 
-			return new Token(token, lexeme, start, line, classe);
+			return new Token(token, lexeme, start, Linhas.getInstance().getLinha(start), classe);
 		}
 	}
 
@@ -158,13 +153,7 @@ public class Lexico implements Constants {
 
 	private char nextChar() {
 		if (hasInput()) {
-			char c = input.charAt(position);
-			if (c == '\n' && position != lposition) {
-				lposition = position;
-				line++;
-			}
-			position++;
-			return c;
+			return input.charAt(position++);
 		} else
 			return (char) -1;
 	}
