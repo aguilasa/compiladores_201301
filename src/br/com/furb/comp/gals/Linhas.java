@@ -31,7 +31,8 @@ public class Linhas {
 		mapa.clear();
 		int lpos = 0;
 		int linha = 0;
-		for (int i = 0; i < texto.length(); i++){
+		int i = 0;
+		for (; i < texto.length(); i++){
 			char c = texto.charAt(i);
 			if (c == '\n') {
 				linha++;
@@ -40,6 +41,9 @@ public class Linhas {
 				mapa.put(linha, pos);
 			}
 		}
+		linha++;
+		Position pos = new Position(lpos, i);
+		mapa.put(linha, pos);
 	}
 	
 	public int getLinha(int posicao) {

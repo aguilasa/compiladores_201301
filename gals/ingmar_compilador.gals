@@ -6,7 +6,7 @@ ScannerName = Lexico
 Package = br.com.furb.comp.gals
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = String
+Input = Stream
 #RegularDefinitions
 mai: [A-Z]
 min: [a-z]
