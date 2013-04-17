@@ -440,6 +440,7 @@ public class Compilador {
 				sbMessages.append("\t");
 				sbMessages.append(t.getLexeme());
 			}
+			sbMessages.append("\nprograma compilado com sucesso");
 		} catch (LexicalError e) {
 			sbMessages = new StringBuilder(e.getMessage());
 		}
