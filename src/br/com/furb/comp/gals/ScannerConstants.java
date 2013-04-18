@@ -1544,7 +1544,7 @@ public interface ScannerConstants
     {
         "símbolo inválido",
         "",
-        "Erro identificando \"!=\"",
+        "! símbolo inválido",
         "constante literal não finalizada",
         "",
         "",
