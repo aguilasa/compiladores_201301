@@ -42,6 +42,7 @@ import br.com.furb.comp.gals.LexicalError;
 import br.com.furb.comp.gals.Lexico;
 import br.com.furb.comp.gals.Token;
 import br.com.furb.comp.util.ResourceManager;
+import br.com.furb.comp.util.Utils;
 
 public class Compilador {
 
@@ -102,9 +103,9 @@ public class Compilador {
 		separador = new JSeparator();
 
 		textEditor = new JTextArea();
-		textEditor.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		textEditor.setFont(new Font("Courier New", Font.PLAIN, 13));
 		textMessages = new JTextArea();
-		textMessages.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		textMessages.setFont(new Font("Courier New", Font.PLAIN, 13));
 		JScrollPane scrollPane1 = new JScrollPane();
 		JScrollPane scrollPane2 = new JScrollPane();
 
@@ -422,7 +423,10 @@ public class Compilador {
 	private void compilar() {
 		textMessages.setText("");
 		StringBuilder sbMessages = new StringBuilder();
-		sbMessages.append("linha\tclasse\tlexema");
+		sbMessages.append("linha\t\t");
+		int numCar = 30;
+		sbMessages.append(Utils.espacamento("classe", numCar));
+		sbMessages.append("lexema\n");
 		Lexico lexico = new Lexico();
 		lexico.setInput(textEditor.getText());
 
@@ -435,15 +439,15 @@ public class Compilador {
 				}
 				sbMessages.append("\n");
 				sbMessages.append(t.getLine());
-				sbMessages.append("\t");
-				sbMessages.append(t.getClasse());
-				sbMessages.append("\t");
+				sbMessages.append("\t\t");
+				sbMessages.append(Utils.espacamento(t.getClasse(), numCar));
 				sbMessages.append(t.getLexeme());
 			}
-			sbMessages.append("\nprograma compilado com sucesso");
+			sbMessages.append("\n\n\t\tprograma compilado com sucesso");
 		} catch (LexicalError e) {
 			sbMessages = new StringBuilder(e.getMessage());
 		}
 		textMessages.setText(sbMessages.toString());
 	}
+	
 }
