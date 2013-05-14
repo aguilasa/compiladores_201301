@@ -8,7 +8,7 @@ SemanticName = Semantico
 Package = br.com.furb.comp.gals
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 Parser = LL
 #RegularDefinitions
 mai: [A-Z]

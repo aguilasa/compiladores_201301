@@ -68,13 +68,13 @@ public class Lexico implements Constants {
 		else {
 			String lexeme = input.substring(start, end);
 			token = lookupToken(token, lexeme);
-			String classe = defineClasse(token);
+			String classe = getClasse(token);
 
 			return new Token(token, lexeme, start, Linhas.getInstance().getLinha(start), classe);
 		}
 	}
 
-	private String defineClasse(int token) {
+	public String getClasse(int token) {
 		switch (token) {
 		case t_palavra_reservada:
 			return "palavra reservada";

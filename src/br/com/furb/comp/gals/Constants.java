@@ -1,6 +1,6 @@
 package br.com.furb.comp.gals;
 
-public interface Constants extends ScannerConstants
+public interface Constants extends ScannerConstants, ParserConstants
 {
     int EPSILON  = 0;
     int DOLLAR   = 1;
@@ -17,8 +17,8 @@ public interface Constants extends ScannerConstants
     int t_false = 11;
     int t_if = 12;
     int t_in = 13;
-    int t_isfalsedo = 14;
-    int t_istruedo = 15;
+    int t_isFalseDo = 14;
+    int t_isTrueDo = 15;
     int t_main = 16;
     int t_module = 17;
     int t_not = 18;
