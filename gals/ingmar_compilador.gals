@@ -46,8 +46,8 @@ and = palavra_reservada : "and"
 false = palavra_reservada : "false"
 if = palavra_reservada : "if"
 in = palavra_reservada : "in"
-isfalsedo = palavra_reservada : "isFalseDo"
-istruedo = palavra_reservada : "isTrueDo"
+isFalseDo = palavra_reservada : "isFalseDo"
+isTrueDo = palavra_reservada : "isTrueDo"
 main = palavra_reservada : "main"
 module = palavra_reservada : "module"
 not = palavra_reservada : "not"
@@ -78,9 +78,110 @@ while = palavra_reservada : "while"
 ">="
 
 #NonTerminals
-<main module>
-<lista de modulos>
-<lista de variaveis>
-<lista comandos>
+<main_module> 
+<lista_de_modulos> 
+<lista_comandos>
+<lista_comandos1>
+<modulo>
+<lista_cmd_mod> 
+<identificador> 
+<parametros> 
+<lista_de_identificadores> 
+<lista_de_identificadores1>
+<declaracao_variavel> 
+<lista_de_variaveis> 
+<atribuicao> 
+<entrada> 
+<saida> 
+<lista_de_expressoes> 
+<lista_de_expressoes1>
+<true_do> 
+<false_do> 
+<false_do_op> 
+<if> 
+<true_or_false_do> 
+<while> 
+<comando> 
+<expressao>
+<expressao1>
+<valor>
+<relacional>
+<aritmetica>
+<aritmetica1>
+<aritmetica2>
+<operador_relacional>
+<termo>
+<termo1>
+<fator>
+<fator1>
+<relacional1>
 #Grammar
-<main module> ::= main module "[" <lista de modulos> <lista de variaveis> <lista comandos> "]";
+<main_module> ::= main module "[" <lista_de_modulos> <lista_de_variaveis> <lista_comandos> "]" ;
+<lista_de_modulos> ::= î | <modulo><lista_de_modulos> ;
+
+//<lista_comandos> ::= <comando> | <comando> <lista_comandos> ;
+
+<lista_comandos> ::= <comando><lista_comandos1>;
+<lista_comandos1> ::= î |<lista_comandos> ;
+
+<modulo> ::= module <identificador> <parametros> "[" <lista_de_variaveis> <lista_cmd_mod> return <expressao> ";" "]" ;
+<lista_cmd_mod> ::= î | <comando> <lista_cmd_mod> ;
+<identificador> ::= id_int | id_float | id_string | id_bool ;
+<parametros> ::= ":" <lista_de_identificadores> | î ;
+//<lista_de_identificadores> ::= <identificador> | <identificador> "," <lista_de_identificadores> ;
+<lista_de_identificadores> ::= <identificador> <lista_de_identificadores1> ;
+
+<lista_de_identificadores1> ::= î | "," <lista_de_identificadores>;
+
+<declaracao_variavel> ::= ":" <lista_de_identificadores> ";" ;
+
+<lista_de_variaveis> ::= î | <declaracao_variavel> <lista_de_variaveis> ;
+
+<atribuicao> ::= <identificador> "<-" <expressao> ";" ;
+
+<entrada> ::= in "(" <lista_de_identificadores> ")" ";" ;
+
+<saida> ::= out "(" <lista_de_expressoes> ")" ";" ;
+
+//<lista_de_expressoes> ::= <expressao> | <expressao> "," <lista_de_expressoes> ;
+<lista_de_expressoes> ::= <expressao><lista_de_expressoes1>;
+<lista_de_expressoes1> ::= î  | "," <lista_de_expressoes> ;
+
+<true_do> ::= isTrueDo ":" "[" <lista_comandos> "]" ;
+
+<false_do> ::= isFalseDo ":" "[" <lista_comandos> "]" ;
+
+<false_do_op> ::= î | <false_do> ;
+
+<if> ::= if "(" <expressao> ")" <true_do> <false_do_op> ;
+
+<true_or_false_do> ::= <true_do> | <false_do> ;
+
+<while> ::= while "(" <expressao> ")" <true_or_false_do> ;
+
+<comando> ::= <atribuicao> | <entrada> | <saida> | <if> | <while> ;
+
+//<expressao> ::= <expressao> or <valor> | <expressao> and <valor> | <valor>; 
+<expressao> ::= <valor><expressao1>;
+<expressao1> ::= î | or <valor><expressao1> | and <valor><expressao1>;
+
+<valor> ::= <relacional> | true | false | not <valor>;
+//<relacional> ::= <aritmetica> <operador_relacional> <aritmetica> | <aritmetica>;
+<relacional> ::= <aritmetica> <relacional1>; 
+<relacional1> ::= î | <operador_relacional> <aritmetica> <relacional>;
+<operador_relacional> ::= "=" | "!=" | "<" | "<=" | ">" | ">=" ;
+
+//<aritmetica> ::= <aritmetica> "+" <termo> | <aritmetica> "-" <termo> | <termo>; 
+<aritmetica> ::= <termo><aritmetica1>;
+<aritmetica1> ::= î | "+" <termo><aritmetica1> | "-" <termo><aritmetica1>;
+//<aritmetica2> ::= 
+
+//<termo> ::= <termo> "*" <fator> | <termo> "/" <fator> | <fator>; 
+<termo> ::= <fator><termo1>;
+<termo1> ::= î | "*" <fator><termo1> | "/" <fator><termo1>;
+
+//<fator> ::= <identificador> | <identificador> "(" <lista_de_expressoes> ")" | const_int | const_float | const_string | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
+<fator> ::= <identificador><fator1> | const_int | const_float | const_string | "(" <expressao> ")" | "+" <fator> | "-" <fator>;
+<fator1> ::= î | "(" <lista_de_expressoes> ")" <fator>;
+
+
