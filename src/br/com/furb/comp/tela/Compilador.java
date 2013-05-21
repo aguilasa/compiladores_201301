@@ -40,6 +40,10 @@ import javax.swing.text.DefaultEditorKit.PasteAction;
 
 import br.com.furb.comp.gals.LexicalError;
 import br.com.furb.comp.gals.Lexico;
+import br.com.furb.comp.gals.SemanticError;
+import br.com.furb.comp.gals.Semantico;
+import br.com.furb.comp.gals.Sintatico;
+import br.com.furb.comp.gals.SyntaticError;
 import br.com.furb.comp.gals.Token;
 import br.com.furb.comp.util.ResourceManager;
 import br.com.furb.comp.util.Utils;
@@ -423,30 +427,43 @@ public class Compilador {
 	private void compilar() {
 		textMessages.setText("");
 		StringBuilder sbMessages = new StringBuilder();
-		sbMessages.append("linha\t\t");
-		int numCar = 30;
-		sbMessages.append(Utils.espacamento("classe", numCar));
-		sbMessages.append("lexema\n");
 		Lexico lexico = new Lexico();
+		Sintatico sintatico = new Sintatico();
+		Semantico semantico = new Semantico();
+		
 		lexico.setInput(textEditor.getText());
-
+		
 		try {
-			Token t = null;
-			while ((t = lexico.nextToken()) != null) {
-				/* caso especial de palavra reservada fora da lista das especificadas */
-				if (t.getId() == 2) {
-					throw new LexicalError("Erro na linha " + t.getLine() + " - " + t.getLexeme() + " palavra reservada inválida", t.getPosition(), t.getLine());
-				}
-				sbMessages.append("\n");
-				sbMessages.append(t.getLine());
-				sbMessages.append("\t\t");
-				sbMessages.append(Utils.espacamento(t.getClasse(), numCar));
-				sbMessages.append(t.getLexeme());
-			}
-			sbMessages.append("\n\n\t\tprograma compilado com sucesso");
+			sintatico.parse(lexico, semantico);
+			sbMessages.append("programa compilado com sucesso");
 		} catch (LexicalError e) {
+			//TODO tratar erro léxico
+			sbMessages = new StringBuilder(e.getMessage());
+		} catch (SyntaticError e) {
+			//TODO tratar erro sintático
+			sbMessages = new StringBuilder(e.getMessage());
+		} catch (SemanticError e) {
+			//TODO tratar erro semantico
 			sbMessages = new StringBuilder(e.getMessage());
 		}
+
+//		try {
+//			Token t = null;
+//			while ((t = lexico.nextToken()) != null) {
+//				/* caso especial de palavra reservada fora da lista das especificadas */
+//				if (t.getId() == 2) {
+//					throw new LexicalError("Erro na linha " + t.getLine() + " - " + t.getLexeme() + " palavra reservada inválida", t.getPosition(), t.getLine());
+//				}
+//				sbMessages.append("\n");
+//				sbMessages.append(t.getLine());
+//				sbMessages.append("\t\t");
+//				sbMessages.append(Utils.espacamento(t.getClasse(), numCar));
+//				sbMessages.append(t.getLexeme());
+//			}
+//			sbMessages.append("\n\n\t\tprograma compilado com sucesso");
+//		} catch (LexicalError e) {
+//			sbMessages = new StringBuilder(e.getMessage());
+//		}
 		textMessages.setText(sbMessages.toString());
 	}
 	
