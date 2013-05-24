@@ -44,9 +44,7 @@ import br.com.furb.comp.gals.SemanticError;
 import br.com.furb.comp.gals.Semantico;
 import br.com.furb.comp.gals.Sintatico;
 import br.com.furb.comp.gals.SyntaticError;
-import br.com.furb.comp.gals.Token;
 import br.com.furb.comp.util.ResourceManager;
-import br.com.furb.comp.util.Utils;
 
 public class Compilador {
 
@@ -447,23 +445,6 @@ public class Compilador {
 			sbMessages = new StringBuilder(e.getMessage());
 		}
 
-//		try {
-//			Token t = null;
-//			while ((t = lexico.nextToken()) != null) {
-//				/* caso especial de palavra reservada fora da lista das especificadas */
-//				if (t.getId() == 2) {
-//					throw new LexicalError("Erro na linha " + t.getLine() + " - " + t.getLexeme() + " palavra reservada inválida", t.getPosition(), t.getLine());
-//				}
-//				sbMessages.append("\n");
-//				sbMessages.append(t.getLine());
-//				sbMessages.append("\t\t");
-//				sbMessages.append(Utils.espacamento(t.getClasse(), numCar));
-//				sbMessages.append(t.getLexeme());
-//			}
-//			sbMessages.append("\n\n\t\tprograma compilado com sucesso");
-//		} catch (LexicalError e) {
-//			sbMessages = new StringBuilder(e.getMessage());
-//		}
 		textMessages.setText(sbMessages.toString());
 	}
 	
