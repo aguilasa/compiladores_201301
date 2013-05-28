@@ -4,12 +4,14 @@ public class AnalysisError extends Exception
 {
     private int position;
     private int line;
+    private String token;
 
-    public AnalysisError(String msg, int position, int line)
+    public AnalysisError(String msg, int position, int line, String token)
     {
         super(msg);
         this.position = position;
         this.line = line;
+        this.token = token;
     }
 
     public AnalysisError(String msg)
@@ -27,6 +29,10 @@ public class AnalysisError extends Exception
     public int getLine() {
     	return line;
     }
+    
+    public String getToken() {
+		return token;
+	}
 
     public String toString()
     {

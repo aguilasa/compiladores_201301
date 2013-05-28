@@ -56,7 +56,7 @@ public class Lexico implements Constants {
 				erro += simbolo + " ";
 				break;
 			}
-			throw new LexicalError(erro + SCANNER_ERROR[lastState], start, linha);
+			throw new LexicalError(erro + SCANNER_ERROR[lastState], start, linha, simbolo);
 		}
 
 		position = end;
@@ -72,7 +72,7 @@ public class Lexico implements Constants {
 			
 			/* caso especial de palavra reservada fora da lista das especificadas */
 			if (token == 2) {
-				throw new LexicalError("Erro na linha " + Linhas.getInstance().getLinha(start) + " - " + lexeme + " palavra reservada inválida", start, Linhas.getInstance().getLinha(start));
+				throw new LexicalError("Erro na linha " + Linhas.getInstance().getLinha(start) + " - " + lexeme + " palavra reservada inválida", start, Linhas.getInstance().getLinha(start), lexeme);
 			}
 
 			return new Token(token, lexeme, start, Linhas.getInstance().getLinha(start), classe);
