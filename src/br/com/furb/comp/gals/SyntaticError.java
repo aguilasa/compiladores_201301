@@ -14,6 +14,6 @@ public class SyntaticError extends AnalysisError
     
     @Override
 	public String getLocalizedMessage() {
-		return String.format("Erro na linha %d - encontrado %s esperado %s", getLine(), getToken(), getMessage());
+		return String.format("Erro na linha %d - encontrado (%s) esperado %s", getLine(), getToken(), getMessage());
 	}
 }
