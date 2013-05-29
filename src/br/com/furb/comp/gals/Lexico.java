@@ -56,7 +56,8 @@ public class Lexico implements Constants {
 				erro += simbolo + " ";
 				break;
 			}
-			throw new LexicalError(erro + SCANNER_ERROR[lastState], start, linha, simbolo);
+			Token tokenError = new Token(-1, simbolo, start, linha, "");
+			throw new LexicalError(erro + SCANNER_ERROR[lastState], start, linha, tokenError);
 		}
 
 		position = end;
@@ -72,14 +73,16 @@ public class Lexico implements Constants {
 			
 			/* caso especial de palavra reservada fora da lista das especificadas */
 			if (token == 2) {
-				throw new LexicalError("Erro na linha " + Linhas.getInstance().getLinha(start) + " - " + lexeme + " palavra reservada inválida", start, Linhas.getInstance().getLinha(start), lexeme);
+				String xMsg = String.format("Erro na linha %d - %s palavra reservada inválida", Linhas.getInstance().getLinha(start), lexeme);
+				Token tokenError = new Token(token, lexeme, start, Linhas.getInstance().getLinha(start), classe);
+				throw new LexicalError(xMsg, start, Linhas.getInstance().getLinha(start), tokenError);
 			}
 
 			return new Token(token, lexeme, start, Linhas.getInstance().getLinha(start), classe);
 		}
 	}
 
-	public String getClasse(int token) {
+	public static String getClasse(int token) {
 		switch (token) {
 		case t_palavra_reservada:
 			return "palavra reservada";

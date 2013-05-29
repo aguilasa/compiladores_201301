@@ -2,7 +2,7 @@ package br.com.furb.comp.gals;
 
 public class SyntaticError extends AnalysisError
 {
-    public SyntaticError(String msg, int position, int line, String token)
+    public SyntaticError(String msg, int position, int line, Token token)
 	 {
         super(msg, position, line, token);
     }
@@ -14,6 +14,8 @@ public class SyntaticError extends AnalysisError
     
     @Override
 	public String getLocalizedMessage() {
-		return String.format("Erro na linha %d - encontrado (%s) esperado %s", getLine(), getToken(), getMessage());
+		String xTokenStr = getToken().getLexeme().equals("$") ? "fim de programa" : getToken().getLexeme();
+		String xEncontrado = (getToken().isIdentificador() ? "identificador " : "") +  String.format("(%s)", xTokenStr);
+		return String.format("Erro na linha %d - encontrado %s esperado %s", getLine(), xEncontrado, getMessage());
 	}
 }

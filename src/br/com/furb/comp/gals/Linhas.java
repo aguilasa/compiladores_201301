@@ -24,7 +24,6 @@ public class Linhas {
 	public void setTexto(String aTexto) {
 		texto = new StringBuilder(aTexto);
 		processaLinhas();
-		System.out.println("");
 	}
 
 	private void processaLinhas() {
