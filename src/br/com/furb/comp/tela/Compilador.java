@@ -39,12 +39,9 @@ import javax.swing.text.DefaultEditorKit.CutAction;
 import javax.swing.text.DefaultEditorKit.PasteAction;
 
 import br.com.furb.comp.gals.AnalysisError;
-import br.com.furb.comp.gals.LexicalError;
 import br.com.furb.comp.gals.Lexico;
-import br.com.furb.comp.gals.SemanticError;
 import br.com.furb.comp.gals.Semantico;
 import br.com.furb.comp.gals.Sintatico;
-import br.com.furb.comp.gals.SyntaticError;
 import br.com.furb.comp.util.ResourceManager;
 
 public class Compilador {
@@ -431,20 +428,6 @@ public class Compilador {
 		Semantico semantico = new Semantico();
 		
 		lexico.setInput(textEditor.getText());
-		
-//		try {
-//			sintatico.parse(lexico, semantico);
-//			sbMessages.append("programa compilado com sucesso");
-//		} catch (LexicalError e) {
-//			//TODO tratar erro léxico
-//			sbMessages = new StringBuilder(e.getMessage());
-//		} catch (SyntaticError e) {
-//			//TODO tratar erro sintático
-//			sbMessages = new StringBuilder(e.getMessage());
-//		} catch (SemanticError e) {
-//			//TODO tratar erro semantico
-//			sbMessages = new StringBuilder(e.getMessage());
-//		}
 		
 		try {
 			sintatico.parse(lexico, semantico);
