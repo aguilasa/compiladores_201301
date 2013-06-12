@@ -23,10 +23,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
@@ -46,15 +46,16 @@ import br.com.furb.comp.util.ResourceManager;
 
 public class Compilador {
 
+	private static final int BUTTONOFFSET = 1;
+	private static final int BUTTONWIDTH = 105;
 	private static final String MODIFICADO = "Modificado";
 	private static final String NAOMODIFICADO = "Não modificado";
 	private static final String EXTENSAO = "ing";
 	private JFrame frame;
 	private JTextArea textEditor;
 	private JTextArea textMessages;
-	private JToolBar toolBar;
+	private JPanel toolBar;
 	private JStatusBar statusBar;
-	private JSeparator separador;
 
 	private StringBuilder sbEditor;
 	private StringBuilder sbMessages;
@@ -91,22 +92,19 @@ public class Compilador {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(100, 100, 1000, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		toolBar = new JToolBar();
-		toolBar.setRollover(true);
-		toolBar.setFloatable(false);
+		toolBar = new JPanel();
+		toolBar.setBounds(0, 0, 1000, 80);
+		toolBar.setLayout(null);
 
 		statusBar = new JStatusBar();
-
-		separador = new JSeparator();
 
 		textEditor = new JTextArea();
 		textEditor.setFont(new Font("Courier New", Font.PLAIN, 13));
 		textMessages = new JTextArea();
 		textMessages.setFont(new Font("Courier New", Font.PLAIN, 13));
-		JScrollPane scrollPane1 = new JScrollPane();
 		JScrollPane scrollPane2 = new JScrollPane();
 
 		ResourceManager resMan = ResourceManager.getInstance();
@@ -119,10 +117,6 @@ public class Compilador {
 		addButton(toolBar, resMan, "compilar", "compilar", "[F8]", KeyEvent.VK_F8, 0, listenerCompilar());
 		addButton(toolBar, resMan, "gerar", "gerar código", "[F9]", KeyEvent.VK_F9, 0, listenerGerarCodigo());
 		addButton(toolBar, resMan, "equipe", "equipe", "[F1]", KeyEvent.VK_F1, 0, listenerEquipe());
-
-		scrollPane1.setViewportView(textMessages);
-		scrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		textEditor.setColumns(20);
 		textEditor.setRows(5);
@@ -174,18 +168,24 @@ public class Compilador {
 		scrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-				.addComponent(statusBar, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-				.addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-				.addComponent(separador, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-				.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(
-				groupLayout.createSequentialGroup().addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(2).addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE).addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(separador, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(statusBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+				.addComponent(textMessages, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+				.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textMessages, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		);
 
 		frame.getContentPane().setLayout(groupLayout);
 
@@ -205,11 +205,14 @@ public class Compilador {
 		}
 
 	}
+	
+	private int buttonCount = 0;
 
-	private void addButton(JToolBar tb, ResourceManager aManager, String aImage, String aLabel, String aHotKeyDesc, int aAccessKey, int aModifier,
+	private void addButton(JPanel tb, ResourceManager aManager, String aImage, String aLabel, String aHotKeyDesc, int aAccessKey, int aModifier,
 			ActionListener aListener) {
 		JButton xButton = new JButton();
-
+		xButton.setBounds(BUTTONOFFSET + (BUTTONWIDTH * buttonCount), 0, BUTTONWIDTH, tb.getHeight());
+		xButton.setHorizontalAlignment(SwingConstants.CENTER);
 		xButton.setIcon(aManager.loadImageIcon(aImage));
 		xButton.setText(String.format("<html><div style=\"text-align:center\">%s<br>%s</div></html>", aLabel, aHotKeyDesc));
 		xButton.setFocusable(false);
@@ -217,6 +220,7 @@ public class Compilador {
 		xButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 		xButton.addActionListener(aListener);
 		registerAction(xButton, aAccessKey, aModifier);
+		buttonCount++;
 
 		tb.add(xButton);
 	}
@@ -394,7 +398,6 @@ public class Compilador {
 					nomeArquivo += "." + EXTENSAO;
 				}
 			}
-			textMessages.setText("");
 		}
 
 		modificar(NAOMODIFICADO);
@@ -418,6 +421,7 @@ public class Compilador {
 				writer.close();
 			}
 		}
+		textMessages.setText("");
 	}
 
 	private void compilar() {
