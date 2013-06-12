@@ -4,7 +4,7 @@ import br.com.furb.comp.gals.RegistroSemantico;
 import br.com.furb.comp.gals.SemanticError;
 import br.com.furb.comp.gals.Token;
 
-public class Action_03 implements IAction {
+public class Action_2 implements IAction {
 
 	@Override
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
