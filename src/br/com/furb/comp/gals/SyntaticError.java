@@ -14,7 +14,7 @@ public class SyntaticError extends AnalysisError {
 		String xTokenStr = getToken().getLexeme().equals("$") ? "fim de programa" : getToken().getLexeme();
 		String xEncontrado = "";
 		if (getToken().isIdentificador()) {
-			xEncontrado = "identificador (" + xTokenStr + ")";
+			xEncontrado = getToken().getClasse() + " (" + xTokenStr + ")";
 		} else {
 			xEncontrado = xTokenStr;
 		}
