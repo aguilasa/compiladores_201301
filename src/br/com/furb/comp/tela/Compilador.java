@@ -39,6 +39,7 @@ import javax.swing.text.DefaultEditorKit.PasteAction;
 
 import br.com.furb.comp.gals.AnalysisError;
 import br.com.furb.comp.gals.Lexico;
+import br.com.furb.comp.gals.RegistroSemantico;
 import br.com.furb.comp.gals.Semantico;
 import br.com.furb.comp.gals.Sintatico;
 import br.com.furb.comp.util.ResourceManager;
@@ -422,6 +423,11 @@ public class Compilador {
 		}
 		textMessages.setText("");
 	}
+	
+	private String getNomeArquivo() {
+		File file = new File(statusBar.getArquivoText());
+		return file.getName().substring(0, file.getName().length() - 4);
+	}
 
 	private void compilar() {
 		textMessages.setText("");
@@ -429,6 +435,9 @@ public class Compilador {
 		Lexico lexico = new Lexico();
 		Sintatico sintatico = new Sintatico();
 		Semantico semantico = new Semantico();
+		RegistroSemantico rs = new RegistroSemantico();
+		semantico.setRs(rs);
+		rs.setArquivo(getNomeArquivo());
 		
 		lexico.setInput(textEditor.getText());
 		
