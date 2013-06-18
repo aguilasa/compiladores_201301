@@ -48,6 +48,27 @@ public class Token {
 		}
 		return false;
 	}
+	
+	public String getTipoMSIL() {
+		switch (id) {
+		case Constants.t_id_int:
+			return "int64";
+		case Constants.t_id_float:
+			return "float64";
+		case Constants.t_id_string:
+			return "string";
+		case Constants.t_id_bool:
+			return "bool";
+		case Constants.t_const_int:
+			return "int64";
+		case Constants.t_const_float:
+			return "float64";
+		case Constants.t_const_string:
+			return "string";
+		}
+		
+		return "";		
+	}
 
 	public String toString() {
 		return id + " ( " + lexeme + " ) @ " + position;

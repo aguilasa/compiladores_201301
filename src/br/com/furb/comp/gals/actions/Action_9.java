@@ -8,8 +8,8 @@ public class Action_9 implements IAction {
 
 	@Override
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
-		// TODO Auto-generated method stub
-		
+		rs.getIdentificadores().add(token.getLexeme());
+		//TODO
 	}
 
 }

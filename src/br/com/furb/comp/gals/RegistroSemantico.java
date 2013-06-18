@@ -1,7 +1,6 @@
 package br.com.furb.comp.gals;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
 
 public class RegistroSemantico {
@@ -10,7 +9,7 @@ public class RegistroSemantico {
 	private Stack<String> tipos = new Stack<String>();
 	private Stack<String> labels = new Stack<String>();
 	private StringBuilder codigo = new StringBuilder();
-	private static List<String> identificadores = new LinkedList<String>();
+	private static LinkedList<String> identificadores = new LinkedList<String>();
 
 	public String getArquivo() {
 		return arquivo;
@@ -36,7 +35,7 @@ public class RegistroSemantico {
 		return codigo;
 	}
 
-	public static List<String> getIdentificadores() {
+	public LinkedList<String> getIdentificadores() {
 		return identificadores;
 	}
 	
