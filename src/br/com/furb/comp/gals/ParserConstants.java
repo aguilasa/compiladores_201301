@@ -174,7 +174,7 @@ public interface ParserConstants
         "<-, in, out, if, while", //"<lista_comandos> inv?lido",
         "<-, in, out, if, while", //"<lista_comandos1> inv?lido",
         "module", //"<modulo> inv?lido",
-        "<-, in, out, if, while", //"<lista_cmd_mod> inv?lido",
+        "<-, in, out, if, while, return", //"<lista_cmd_mod> inv?lido",
         "identificador", //"<identificador> inv?lido",
         ":", //"<parametros> inv?lido",
         "identificador", //"<lista_de_identificadores> inv?lido",
