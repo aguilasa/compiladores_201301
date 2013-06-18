@@ -168,24 +168,16 @@ public class Compilador {
 		scrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(statusBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
-				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(statusBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE).addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
 				.addComponent(textMessages, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
-				.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textMessages, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		);
+				.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(
+				groupLayout.createSequentialGroup().addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED).addComponent(textMessages, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
 
 		frame.getContentPane().setLayout(groupLayout);
 
@@ -205,7 +197,7 @@ public class Compilador {
 		}
 
 	}
-	
+
 	private int buttonCount = 0;
 
 	private void addButton(JPanel tb, ResourceManager aManager, String aImage, String aLabel, String aHotKeyDesc, int aAccessKey, int aModifier,
@@ -379,6 +371,8 @@ public class Compilador {
 					JOptionPane.showMessageDialog(frame, e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 				}
 			}
+		} else {
+			erro = true;
 		}
 
 		if (erro) {
@@ -397,6 +391,8 @@ public class Compilador {
 				if (!validaNomeArquivo(nomeArquivo)) {
 					nomeArquivo += "." + EXTENSAO;
 				}
+			} else {
+				return;
 			}
 		}
 
@@ -423,32 +419,58 @@ public class Compilador {
 		}
 		textMessages.setText("");
 	}
-	
+
+	private boolean isArquivoSalvo() {
+		if (getNomeArquivo().isEmpty() || statusBar.getStatusText().equals(MODIFICADO)) {
+			Object[] options = { "Sim", "Não" };
+			int n = JOptionPane.showOptionDialog(frame, "O arquivo não está salvo.\nPara compilar ou gerar código será necessário salvá-lo.\nSalvar?",
+					"Salvar arquivo?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			if (n == JOptionPane.YES_OPTION) {
+				try {
+					salvar();
+					return !getNomeArquivo().isEmpty() && statusBar.getStatusText().equals(NAOMODIFICADO);
+				} catch (IOException e) {
+					return false;
+				} catch (Exception e) {
+					return false;
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+
 	private String getNomeArquivo() {
 		File file = new File(statusBar.getArquivoText());
-		return file.getName().substring(0, file.getName().length() - 4);
+		if (file.exists()) {
+			return file.getName().substring(0, file.getName().length() - 4);
+		}
+		return "";
 	}
 
 	private void compilar() {
-		textMessages.setText("");
-		StringBuilder sbMessages = new StringBuilder();
-		Lexico lexico = new Lexico();
-		Sintatico sintatico = new Sintatico();
-		Semantico semantico = new Semantico();
-		RegistroSemantico rs = new RegistroSemantico();
-		semantico.setRs(rs);
-		rs.setArquivo(getNomeArquivo());
-		
-		lexico.setInput(textEditor.getText());
-		
-		try {
-			sintatico.parse(lexico, semantico);
-			sbMessages.append("programa compilado com sucesso");
-		} catch (AnalysisError e) {
-			sbMessages = new StringBuilder(e.getLocalizedMessage());
-		}
+		if (isArquivoSalvo()) {
+			textMessages.setText("");
+			StringBuilder sbMessages = new StringBuilder();
+			Lexico lexico = new Lexico();
+			Sintatico sintatico = new Sintatico();
+			Semantico semantico = new Semantico();
+			RegistroSemantico rs = new RegistroSemantico();
+			semantico.setRs(rs);
+			rs.setArquivo(getNomeArquivo());
 
-		textMessages.setText(sbMessages.toString());
+			lexico.setInput(textEditor.getText());
+
+			try {
+				sintatico.parse(lexico, semantico);
+				sbMessages.append("programa compilado com sucesso");
+				System.out.println(rs.getCodigo().toString());
+			} catch (AnalysisError e) {
+				sbMessages = new StringBuilder(e.getLocalizedMessage());
+			}
+
+			textMessages.setText(sbMessages.toString());
+		}
 	}
-	
+
 }
