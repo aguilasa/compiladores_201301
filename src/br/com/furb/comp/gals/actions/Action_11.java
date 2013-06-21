@@ -34,9 +34,15 @@ public class Action_11 implements IAction {
 				throw new SemanticError(mensagem, posicao, linha, identificador);
 			}
 
-			if (!tipoMSIL.equals("string")) {
-
+			if (tipoMSIL.equals("int64")) {
+				modulo.getCodigo().append(ESPACO).append(ESPACO).append(CONVERSAOINT).append("\n");
 			}
+
+			if (tipoMSIL.equals("float64")) {
+				modulo.getCodigo().append(ESPACO).append(ESPACO).append(CONVERSAOFLOAT).append("\n");
+			}
+
+			modulo.getCodigo().append(ESPACO).append(ESPACO).append("stloc ").append(lexeme).append("\n");
 
 			identificador = modulo.getIdentificadores().poll();
 		}
