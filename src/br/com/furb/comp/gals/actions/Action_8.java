@@ -16,15 +16,16 @@ public class Action_8 implements IAction {
 		Token identificador = modulo.getIdentificadores().poll();
 		StringBuilder tempCodigo = new StringBuilder();
 		while (identificador != null) {
-			if (modulo.getSimbolos().containsKey(identificador.getLexeme())) {
-				String mensagem = String.format("Erro na linha %d - identificador (%s) já declarado", identificador.getLine(), identificador.getLexeme());
+			String lexeme = identificador.getLexeme();
+			if (rs.getSimbolos().containsKey(lexeme) || modulo.getSimbolos().containsKey(lexeme)) {
+				String mensagem = String.format("Erro na linha %d - identificador (%s) já declarado", identificador.getLine(), lexeme);
 				throw new SemanticError(mensagem, identificador.getPosition(), identificador.getLine(), identificador);
 			}
-			modulo.getSimbolos().put(identificador.getLexeme(), new Simbolo(identificador.getLexeme(), identificador.getTipoMSIL()));
+			modulo.getSimbolos().put(lexeme, new Simbolo(lexeme, identificador.getTipoMSIL()));
 			if (tempCodigo.length() > 0) {
 				tempCodigo.append(", ");
 			}
-			tempCodigo.append(identificador.getTipoMSIL()).append(" ").append(identificador.getLexeme());
+			tempCodigo.append(identificador.getTipoMSIL()).append(" ").append(lexeme);
 			
 			identificador = modulo.getIdentificadores().poll();
 		}

@@ -8,6 +8,7 @@ public class RegistroSemantico {
 	private String arquivo = "";
 	private StringBuilder codigo = new StringBuilder();
 	private LinkedList<String> escopos = new LinkedList<String>();
+	/* símbolos inicialmente só armazenam identificadores de módulos */
 	private Map<String, Simbolo> simbolos = new LinkedHashMap<String, Simbolo>();
 	private Map<String, Modulo> modulos = new LinkedHashMap<String, Modulo>();
 

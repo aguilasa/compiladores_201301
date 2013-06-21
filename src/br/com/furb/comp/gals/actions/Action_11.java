@@ -14,18 +14,33 @@ public class Action_11 implements IAction {
 		modulo.getCodigo().append(ESPACO).append(ESPACO).append("call string [mscorlib]System.Console::ReadLine()").append("\n");
 		Token identificador = modulo.getIdentificadores().poll();
 		while (identificador != null) {
-			if (!modulo.getSimbolos().containsKey(identificador.getLexeme())) {
-				String mensagem = String.format("Erro na linha %d - identificador (%s) não declarado", identificador.getLine(), identificador.getLexeme());
-				throw new SemanticError(mensagem, identificador.getPosition(), identificador.getLine(), identificador);
+			String lexeme = identificador.getLexeme();
+			int linha = identificador.getLine();
+			int posicao = identificador.getPosition();
+			String tipoMSIL = identificador.getTipoMSIL();
+
+			if (rs.getSimbolos().containsKey(lexeme)) {
+				String mensagem = String.format("Erro na linha %d - identificador (%s) é um módulo e não pode ser usado em comandos de entrada (in)", linha, lexeme);
+				throw new SemanticError(mensagem, posicao, linha, identificador);
 			}
-			
-			if (!identificador.getTipoMSIL().equals("string")) {
-				
+
+			if (!modulo.getSimbolos().containsKey(lexeme)) {
+				String mensagem = String.format("Erro na linha %d - identificador (%s) não declarado", linha, lexeme);
+				throw new SemanticError(mensagem, posicao, linha, identificador);
+			}
+
+			if (tipoMSIL.equals("bool")) {
+				String mensagem = String.format("Erro na linha %d - identificador (%s) é do tipo bool e não pode ser usado em comandos de entrada (in)", linha, lexeme);
+				throw new SemanticError(mensagem, posicao, linha, identificador);
+			}
+
+			if (!tipoMSIL.equals("string")) {
+
 			}
 
 			identificador = modulo.getIdentificadores().poll();
 		}
-		
+
 	}
 
 }
