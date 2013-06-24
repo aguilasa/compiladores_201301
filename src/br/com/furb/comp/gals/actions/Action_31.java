@@ -11,21 +11,21 @@ public class Action_31 implements IAction {
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
 		Modulo modulo = rs.getModuloAtual();
 
-		Token identificador = modulo.getIdentificadores().poll();
-		while (identificador != null) {
-			String lexeme = identificador.getLexeme();
-			int linha = identificador.getLine();
-			int posicao = identificador.getPosition();
+		Token identificador = modulo.getIdentificadores().pollLast();
+		// while (identificador != null) {
+		String lexeme = identificador.getLexeme();
+		int linha = identificador.getLine();
+		int posicao = identificador.getPosition();
 
-			if (!modulo.getSimbolos().containsKey(lexeme)) {
-				String mensagem = String.format("Erro na linha %d - identificador (%s) não declarado", linha, lexeme);
-				throw new SemanticError(mensagem, posicao, linha, identificador);
-			}
-
-			modulo.getCodigo().append(ESPACO).append(ESPACO).append("ldloc ").append(lexeme).append("\n");
-
-			identificador = modulo.getIdentificadores().poll();
+		if (!modulo.getSimbolos().containsKey(lexeme)) {
+			String mensagem = String.format("Erro na linha %d - identificador (%s) não declarado", linha, lexeme);
+			throw new SemanticError(mensagem, posicao, linha, identificador);
 		}
+
+		modulo.getCodigo().append(ESPACO).append(ESPACO).append("ldloc ").append(lexeme).append("\n");
+
+		// identificador = modulo.getIdentificadores().poll();
+		// }
 	}
 
 }
