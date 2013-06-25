@@ -9,6 +9,7 @@ public class Action_10 implements IAction {
 
 	@Override
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
+		// TODO verificar se existe
 		Modulo modulo = rs.getModuloAtual();
 
 		Token identificador = modulo.getIdentificadores().pollLast();

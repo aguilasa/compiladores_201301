@@ -8,12 +8,22 @@ import br.com.furb.comp.gals.Semantico;
 import br.com.furb.comp.gals.Sintatico;
 
 public class Compilador extends TestCase {
+	StringBuilder sbMessages;
+	Lexico lexico;
+	Sintatico sintatico;
+	Semantico semantico;
+	RegistroSemantico rs;
+
+	@Override
+	public void setUp() {
+		sbMessages = new StringBuilder();
+		lexico = new Lexico();
+		sintatico = new Sintatico();
+		semantico = new Semantico();
+		rs = new RegistroSemantico();
+	}
+
 	public void testCompilar001() {
-		StringBuilder sbMessages = new StringBuilder();
-		Lexico lexico = new Lexico();
-		Sintatico sintatico = new Sintatico();
-		Semantico semantico = new Semantico();
-		RegistroSemantico rs = new RegistroSemantico();
 		semantico.setRs(rs);
 		rs.setArquivo("entrada_01");
 		StringBuilder sbEntrada = new StringBuilder();
@@ -36,11 +46,6 @@ public class Compilador extends TestCase {
 	}
 
 	public void testCompilar002() {
-		StringBuilder sbMessages = new StringBuilder();
-		Lexico lexico = new Lexico();
-		Sintatico sintatico = new Sintatico();
-		Semantico semantico = new Semantico();
-		RegistroSemantico rs = new RegistroSemantico();
 		semantico.setRs(rs);
 		rs.setArquivo("entrada_02");
 		StringBuilder sbEntrada = new StringBuilder();
