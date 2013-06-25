@@ -16,8 +16,8 @@ public class Action_3 implements IAction {
 			Modulo modulo = entry.getValue();
 			rs.getCodigo().append(modulo.getCodigo());
 			if (modulo.isMain()) {
-				rs.getCodigo().append(ESPACO).append(ESPACO).append("ret").append("\n");
-				rs.getCodigo().append(ESPACO).append("}").append("\n");				
+				rs.getCodigo().append("ret").append("\n");
+				rs.getCodigo().append("}").append("\n");				
 			}
 		}
 		

@@ -11,7 +11,7 @@ public class Action_11 implements IAction {
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
 		Modulo modulo = rs.getModuloAtual();
 
-		modulo.getCodigo().append(ESPACO).append(ESPACO).append("call string [mscorlib]System.Console::ReadLine()").append("\n");
+		modulo.getCodigo().append("call string [mscorlib]System.Console::ReadLine()").append("\n");
 		Token identificador = modulo.getIdentificadores().poll();
 		while (identificador != null) {
 			String lexeme = identificador.getLexeme();
@@ -35,14 +35,14 @@ public class Action_11 implements IAction {
 			}
 
 			if (tipoMSIL.equals("int64")) {
-				modulo.getCodigo().append(ESPACO).append(ESPACO).append(CONVERSAOINT).append("\n");
+				modulo.getCodigo().append(CONVERSAOINT).append("\n");
 			}
 
 			if (tipoMSIL.equals("float64")) {
-				modulo.getCodigo().append(ESPACO).append(ESPACO).append(CONVERSAOFLOAT).append("\n");
+				modulo.getCodigo().append(CONVERSAOFLOAT).append("\n");
 			}
 
-			modulo.getCodigo().append(ESPACO).append(ESPACO).append("stloc ").append(lexeme).append("\n");
+			modulo.getCodigo().append("stloc ").append(lexeme).append("\n");
 
 			identificador = modulo.getIdentificadores().poll();
 		}

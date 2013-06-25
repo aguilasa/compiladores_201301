@@ -10,7 +10,7 @@ public class Action_27 implements IAction {
 	@Override
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
 		Modulo modulo = rs.getModuloAtual();
-		modulo.getCodigo().append(ESPACO).append(ESPACO).append("add").append("\n");
+		modulo.getCodigo().append("add").append("\n");
 	}
 
 }

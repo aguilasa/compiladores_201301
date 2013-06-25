@@ -14,7 +14,7 @@ public class Action_10 implements IAction {
 		Token identificador = modulo.getIdentificadores().pollLast();
 		String lexeme = identificador.getLexeme();
 
-		modulo.getCodigo().append(ESPACO).append(ESPACO).append("stloc ").append(lexeme).append("\n");
+		modulo.getCodigo().append("stloc ").append(lexeme).append("\n");
 
 	}
 

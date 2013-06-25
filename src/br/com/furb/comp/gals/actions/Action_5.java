@@ -12,7 +12,7 @@ public class Action_5 implements IAction {
 		// TODO Auto-generated method stub
 		// geração de código
 		Modulo modulo = rs.getModuloAtual();
-		modulo.getCodigo().append(")").append("\n").append(ESPACO).append("{").append("\n");
+		modulo.getCodigo().append(")").append("\n").append("{").append("\n");
 	}
 
 }

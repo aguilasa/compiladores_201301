@@ -12,7 +12,7 @@ public class Action_8 implements IAction {
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
 		Modulo modulo = rs.getModuloAtual();
 		
-		modulo.getCodigo().append(ESPACO).append(ESPACO).append(".locals (");
+		modulo.getCodigo().append(".locals (");
 		Token identificador = modulo.getIdentificadores().poll();
 		StringBuilder tempCodigo = new StringBuilder();
 		while (identificador != null) {

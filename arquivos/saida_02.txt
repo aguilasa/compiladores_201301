@@ -1,0 +1,24 @@
+.assembly extern mscorlib {}
+.assembly entrada_02{}
+.module entrada_02.exe
+.class public entrada_02{ 
+.method static public void principal()
+{ .entrypoint 
+.locals (int64 i_lado, int64 i_area) 
+call string [mscorlib]System.Console::ReadLine()
+call int64 [mscorlib]System.Int64::Parse(string)
+stloc i_lado 
+ldloc i_lado 
+ldc.i8 1 
+cgt 
+brfalse r1 
+ldloc i_lado 
+ldloc i_lado 
+mul 
+stloc i_area 
+ldloc i_area 
+call void [mscorlib]System.Console::Write(int64) 
+br r2
+r1: 
+ldstr "valor inválido" 
+call void [mscorlib]System.Console::Write(string) 

@@ -23,7 +23,7 @@ public class Action_4 implements IAction {
 		rs.getModulos().put(modulo.getIdentificador(), modulo);
 		
 		//geração de código
-		modulo.getCodigo().append(ESPACO).append(".method static public ").append(token.getTipoMSIL()).append(" ").append(identificador).append("(");		
+		modulo.getCodigo().append(".method static public ").append(token.getTipoMSIL()).append(" ").append(identificador).append("(");		
 	}
 
 }

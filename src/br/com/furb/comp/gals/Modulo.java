@@ -14,19 +14,20 @@ public class Modulo {
 	private Stack<String> labels = new Stack<String>();
 	private LinkedList<Token> identificadores = new LinkedList<Token>();
 	private Map<String, Simbolo> simbolos = new LinkedHashMap<String, Simbolo>();
-	
+	private EListaExpressao listaExpressao;
+
 	public Modulo(String identificador) {
 		this.identificador = identificador;
 	}
-	
+
 	public String getIdentificador() {
 		return this.identificador;
 	}
-	
+
 	public StringBuilder getCodigo() {
 		return this.codigo;
 	}
-	
+
 	public Stack<String> getOperador() {
 		return operador;
 	}
@@ -38,21 +39,29 @@ public class Modulo {
 	public Stack<String> getLabels() {
 		return labels;
 	}
-	
+
 	public LinkedList<Token> getIdentificadores() {
 		return identificadores;
 	}
-	
+
 	public Map<String, Simbolo> getSimbolos() {
 		return simbolos;
 	}
-	
+
 	public boolean isMain() {
 		return main;
 	}
 
 	public void setMain(boolean main) {
 		this.main = main;
+	}
+
+	public EListaExpressao getListaExpressao() {
+		return listaExpressao;
+	}
+
+	public void setListaExpressao(EListaExpressao listaExpressao) {
+		this.listaExpressao = listaExpressao;
 	}
 
 	public void limpar() {
@@ -63,6 +72,5 @@ public class Modulo {
 		identificadores.clear();
 		simbolos.clear();
 	}
-	
-	
+
 }

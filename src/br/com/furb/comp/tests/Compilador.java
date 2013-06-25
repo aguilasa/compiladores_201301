@@ -35,6 +35,33 @@ public class Compilador extends TestCase {
 		comparaTexto(sbSaida.toString(), rs.getCodigo().toString());
 	}
 
+	public void testCompilar002() {
+		StringBuilder sbMessages = new StringBuilder();
+		Lexico lexico = new Lexico();
+		Sintatico sintatico = new Sintatico();
+		Semantico semantico = new Semantico();
+		RegistroSemantico rs = new RegistroSemantico();
+		semantico.setRs(rs);
+		rs.setArquivo("entrada_02");
+		StringBuilder sbEntrada = new StringBuilder();
+		Utils.carregaArquivo("arquivos/entrada_02.txt", sbEntrada);
+		StringBuilder sbSaida = new StringBuilder();
+		Utils.carregaArquivo("arquivos/saida_02.txt", sbSaida);
+
+		lexico.setInput(sbEntrada.toString());
+
+		try {
+			sintatico.parse(lexico, semantico);
+			sbMessages.append("programa compilado com sucesso");
+			System.out.println(rs.getCodigo().toString());
+		} catch (AnalysisError e) {
+			sbMessages = new StringBuilder(e.getLocalizedMessage());
+		}
+
+		assertEquals("programa compilado com sucesso", sbMessages.toString());
+		comparaTexto(sbSaida.toString(), rs.getCodigo().toString());
+	}
+
 	private void comparaTexto(String s1, String s2) {
 		String[] sp1 = s1.split("\n");
 		String[] sp2 = s2.split("\n");

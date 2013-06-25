@@ -48,7 +48,7 @@ public class Token {
 		}
 		return false;
 	}
-	
+
 	public String getTipoMSIL() {
 		switch (id) {
 		case Constants.t_id_int:
@@ -66,8 +66,20 @@ public class Token {
 		case Constants.t_const_string:
 			return "string";
 		}
-		
-		return "";		
+
+		return "";
+	}
+
+	public boolean isConst() {
+		switch (id) {
+		case Constants.t_const_int:
+			return true;
+		case Constants.t_const_float:
+			return true;
+		case Constants.t_const_string:
+			return true;
+		}
+		return false;
 	}
 
 	public String toString() {
