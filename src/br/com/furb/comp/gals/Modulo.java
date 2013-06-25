@@ -9,7 +9,7 @@ public class Modulo {
 	private String identificador;
 	private boolean main = false;
 	private StringBuilder codigo = new StringBuilder();
-	private Stack<String> operador = new Stack<String>();
+	private String operador = "";
 	private Stack<String> tipos = new Stack<String>();
 	private Stack<String> labels = new Stack<String>();
 	private LinkedList<Token> identificadores = new LinkedList<Token>();
@@ -28,8 +28,12 @@ public class Modulo {
 		return this.codigo;
 	}
 
-	public Stack<String> getOperador() {
+	public String getOperador() {
 		return operador;
+	}
+
+	public void setOperador(String operador) {
+		this.operador = operador;
 	}
 
 	public Stack<String> getTipos() {
@@ -65,7 +69,7 @@ public class Modulo {
 	}
 
 	public void limpar() {
-		operador.clear();
+		operador = "";
 		tipos.clear();
 		labels.clear();
 		codigo = new StringBuilder();
