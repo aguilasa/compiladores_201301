@@ -1,0 +1,16 @@
+main module [
+module i_ler  : i_limite    [
+: i_lado  ;
+in (i_lado ) ;
+while  (i_lado   >  i_limite   ) isFalseDo  : [
+out ( "valor inválido"  , "\n"  );
+in (i_lado ) ;
+] 
+return i_lado  ;
+] 
+
+: i_lado , i_area  ;
+i_lado  <- i_ler  ( 1  )  ;
+i_area  <- i_lado   * i_lado    ;
+out ( i_area   );
+] 

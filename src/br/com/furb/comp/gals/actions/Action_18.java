@@ -12,7 +12,14 @@ public class Action_18 implements IAction {
 		Modulo modulo = rs.getModuloAtual();
 		int label = rs.incAndGetLabels();
 		String labelName = "r" + label;
-		modulo.getCodigo().append("brfalse ").append(labelName).append("\n");
+		String lexeme = token.getLexeme();
+		String br = "";
+		if ("isTrueDo".equals(lexeme)) {
+			br = "brfalse ";
+		} else if ("isFalseDo".equals(lexeme)) {
+			br = "brtrue ";
+		}
+		modulo.getCodigo().append(br).append(labelName).append("\n");
 		modulo.getLabels().add(labelName);
 	}
 

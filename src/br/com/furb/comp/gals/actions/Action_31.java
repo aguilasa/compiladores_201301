@@ -22,10 +22,11 @@ public class Action_31 implements IAction {
 			throw new SemanticError(mensagem, posicao, linha, identificador);
 		}
 
-		modulo.getCodigo().append("ldloc ").append(lexeme).append("\n");
+		String ld = "ldloc ";
+		if (modulo.getParametros().contains(lexeme)) {
+			ld = "ldarg ";
+		}
+		modulo.getCodigo().append(ld).append(lexeme).append("\n");
 
-		// identificador = modulo.getIdentificadores().poll();
-		// }
 	}
-
 }

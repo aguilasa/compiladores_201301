@@ -1,8 +1,10 @@
 package br.com.furb.comp.gals;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 public class Modulo {
@@ -15,6 +17,7 @@ public class Modulo {
 	private LinkedList<Token> identificadores = new LinkedList<Token>();
 	private Map<String, Simbolo> simbolos = new LinkedHashMap<String, Simbolo>();
 	private EListaExpressao listaExpressao;
+	private Set<String> parametros = new LinkedHashSet<String>();
 
 	public Modulo(String identificador) {
 		this.identificador = identificador;
@@ -68,6 +71,10 @@ public class Modulo {
 		this.listaExpressao = listaExpressao;
 	}
 
+	public Set<String> getParametros() {
+		return parametros;
+	}
+
 	public void limpar() {
 		operador = "";
 		tipos.clear();
@@ -75,6 +82,7 @@ public class Modulo {
 		codigo = new StringBuilder();
 		identificadores.clear();
 		simbolos.clear();
+		parametros.clear();
 	}
 
 }
