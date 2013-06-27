@@ -1,0 +1,240 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = Stream
+Parser = LL
+#RegularDefinitions
+maiusculas: [A-Z]
+minusculas: [a-z]
+
+digito: [0-9]
+
+fracionario: (0|(0*[1-9]+)+)
+
+comentario_linha: / /([^\n])*
+
+comentario_bloco: "{"([^ "}"])*"}"
+
+
+#Tokens
+:[\s\t\n\r]
+:!{comentario_linha}
+:!{comentario_bloco}
+
+//1-a
+identificador:({minusculas}{maiusculas}?|{maiusculas})([0-9]{maiusculas}?|{minusculas}{maiusculas}?)*
+
+//Palavras reservadas
+and = identificador : "and"
+begin = identificador : "begin"
+boolean = identificador : "boolean"
+char = identificador : "char"
+declare = identificador : "declare"
+do = identificador : "do"
+isEmpty = identificador : "isEmpty"
+isFull = identificador : "isFull"
+end = identificador : "end"
+false = identificador : "false"
+ifFalse = identificador : "ifFalse"
+ifTrue = identificador : "ifTrue"
+input = identificador : "input"
+inputValue = identificador : "inputValue"
+integer = identificador : "integer"
+main = identificador : "main"
+not = identificador : "not"
+or = identificador : "or"
+output = identificador : "output"
+pop = identificador : "pop"
+push = identificador : "push"
+real = identificador : "real"
+stack = identificador : "stack"
+top = identificador : "top"
+true = identificador : "true"
+whileFalse = identificador : "whileFalse"
+whileTrue = identificador : "whileTrue"
+
+//pontuaчуo
+"("
+")"
+";"
+"="
+":"
+","
+"<"
+">"
+"+"
+"-"
+"*"
+"/"
+"=="
+"!="
+"<="
+">="
+
+//1-C
+constante_real:(0"."{fracionario})|([1-9][0-9]*"."{fracionario})
+
+//1-b
+constante_inteira:([1-9](({digito})?)(({digito})?)(({digito})?)(({digito})?)|0)
+
+//1-D
+constante_literal:\"([^ \n \"])*\"
+
+
+
+#NonTerminals
+<programa>
+<lista_de_comando>
+<declaracao_de_variavel>
+<declaracoes>
+<declaracao>
+<lista_de_identificadores>
+<tipo>
+<lista_de_identificadores_>
+<simples>
+<valores_real_>
+<stack>
+<lista_de_expressoes_>
+<valores_logico_>
+<dec_valor>
+<if_>
+<relacional_>
+<fator_>
+<if__>
+<valores_literal_>
+<valor>
+<lista_de_constante>
+<manipulacao_>
+<lista_inteiro>
+<valores_inteiro_>
+<lista_real>
+<lista_literal>
+<lista_logico>
+<valores_inteiro>
+<valores_real>
+<valores_literal>
+<valores_logico>
+<constante_logico>
+<expressao>
+<elemento>
+<entrada>
+<saida>
+<lista_de_expressoes>
+<if>
+<ifTrue>
+<declaracoes_>
+<ifFalse>
+<repeticao_>
+<comando>
+<comando_>
+<comando__>
+<valorE>
+<relacional>
+<operador_relacional>
+<aritmetica>
+<termo>
+<fator>
+<termo_>
+<aritmetica_>
+<expressao_>
+#Grammar
+<programa>::= #1 main <declaracao_de_variavel> begin <lista_de_comando>end #2;
+
+<declaracao_de_variavel>::= declare <declaracoes> |  ю;
+
+<declaracoes>::= <declaracao> <declaracoes_>;
+<declaracoes_>::= ю | <declaracoes>;
+
+<declaracao>::= <lista_de_identificadores> ":" <tipo> <dec_valor> #3 ";" ;
+
+<lista_de_identificadores> ::= identificador #4 <lista_de_identificadores_>;
+<lista_de_identificadores_> ::= ю | "," <lista_de_identificadores>;
+
+<tipo>::= <simples> #5 | <stack>;
+
+<simples>::= integer | real | char | boolean;
+
+<stack>::= stack "(" <simples> #6 "," constante_inteira #7 ")";
+
+<dec_valor>::= "=" "(" <valor> ")" | ю;
+
+<valor>::= <lista_de_constante>;
+
+<lista_inteiro>::=  <valores_inteiro> ;
+
+<valores_inteiro>::= constante_inteira #8 <valores_inteiro_>;
+<valores_inteiro_>::= ю | "," <valores_inteiro>;
+
+<lista_real>::=  <valores_real> ;
+
+<valores_real>::= constante_real #9 <valores_real_>;
+<valores_real_>::= ю | "," <valores_real>;
+
+<lista_literal>::=  <valores_literal> ;
+
+<valores_literal>::= constante_literal #10 <valores_literal_>;
+<valores_literal_>::= ю | "," <valores_literal>;
+
+<lista_logico>::=  <valores_logico> ;
+
+<valores_logico>::= <constante_logico> #11 <valores_logico_>;
+<valores_logico_>::= ю | "," <valores_logico>;
+
+<constante_logico>::= true | false ;
+
+<elemento>::= <expressao>;
+
+<entrada>::= input "(" <lista_de_identificadores> ")" #15 ";" | inputValue"("<lista_de_identificadores>")" #16 ";" ;
+
+<saida>::= output"("<lista_de_expressoes>")" ";" ;
+
+<lista_de_expressoes>::= <expressao> #17 <lista_de_expressoes_>;
+<lista_de_expressoes_>::= "," <lista_de_expressoes> | ю;
+
+<if>::= ifTrue #19 <lista_de_comando> <if_>| ifFalse #19 <lista_de_comando> <if__>;
+<if_>::= #21 <ifFalse> | ю ;
+<if__>::= #21 <ifTrue> | ю ;
+
+<ifTrue>::= ifTrue <lista_de_comando> ;
+
+<ifFalse>::= ifFalse <lista_de_comando> ;
+
+<lista_de_comando>::= ю | <comando> <lista_de_comando>;
+
+<expressao>::= <valorE> <expressao_>;
+<expressao_>::= or <valorE> #25 <expressao_> | and <valorE> #24 <expressao_> | ю;
+
+<valorE>::= <relacional> | true #26 | false #26 | not <valorE> #27;
+
+<relacional>::= <aritmetica> <relacional_>;
+<relacional_>::= <operador_relacional> #28 <aritmetica> #29 | ю;
+
+<operador_relacional>::= "==" | "!=" | "<" | "<=" | ">" | ">=";
+
+<aritmetica>::= <termo> <aritmetica_>;
+<aritmetica_>::= "+" <termo> #30 <aritmetica_> | "-" <termo> #31 <aritmetica_>| ю;
+
+<termo>::= <fator> <termo_>;
+<termo_>::= "*" <fator> #32 <termo_> | "/" <fator> #33 <termo_>| ю;
+
+<fator>::= identificador #4 <fator_> | constante_inteira #38 | constante_real #39 | constante_literal #40 | "(" <expressao> ")" | "+" <fator> #41 | "-" <fator> #42; 
+<fator_>::= #34 ю | isEmpty #35 | isFull #36 | top #37 ;
+
+<lista_de_constante>::= <lista_inteiro> | <lista_real> | <lista_literal> | <lista_logico>;
+
+<comando>::= identificador #4 <comando_> | <entrada> | <saida> | #18 "("<expressao>")" <comando__>;
+
+<comando_>::= "=" <expressao> #12 ";" | <manipulacao_>;
+
+<manipulacao_>::= push "(" <elemento> #13 ")" ";" | pop #14 ";" ;
+
+<comando__>::= <if> end #20 ";"  | <repeticao_>;
+
+<repeticao_>::= whileTrue #22 do <lista_de_comando> end #23 ";" | whileFalse #22 do <lista_de_comando> end #23 ";" ;
+

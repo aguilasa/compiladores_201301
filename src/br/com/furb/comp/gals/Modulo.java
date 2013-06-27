@@ -11,7 +11,7 @@ public class Modulo {
 	private StringBuilder codigo = new StringBuilder();
 	private String operador = "";
 	private Stack<String> tipos = new Stack<String>();
-	private Stack<String> labels = new Stack<String>();
+	private LinkedList<String> labels = new LinkedList<String>();
 	private LinkedList<Token> identificadores = new LinkedList<Token>();
 	private Map<String, Simbolo> simbolos = new LinkedHashMap<String, Simbolo>();
 	private EListaExpressao listaExpressao;
@@ -40,7 +40,7 @@ public class Modulo {
 		return tipos;
 	}
 
-	public Stack<String> getLabels() {
+	public LinkedList<String> getLabels() {
 		return labels;
 	}
 

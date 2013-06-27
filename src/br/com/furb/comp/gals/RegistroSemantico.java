@@ -11,6 +11,7 @@ public class RegistroSemantico {
 	/* símbolos inicialmente só armazenam identificadores de módulos */
 	private Map<String, Simbolo> simbolos = new LinkedHashMap<String, Simbolo>();
 	private Map<String, Modulo> modulos = new LinkedHashMap<String, Modulo>();
+	private int labels = 0;
 
 	public String getArquivo() {
 		return arquivo;
@@ -24,7 +25,6 @@ public class RegistroSemantico {
 		return codigo;
 	}
 
-
 	public LinkedList<String> getEscopos() {
 		return escopos;
 	}
@@ -32,11 +32,11 @@ public class RegistroSemantico {
 	public Map<String, Simbolo> getSimbolos() {
 		return simbolos;
 	}
-	
+
 	public Map<String, Modulo> getModulos() {
 		return modulos;
 	}
-	
+
 	/**
 	 * 
 	 * @return Módulo que está no topo da lista de módulos
@@ -45,11 +45,19 @@ public class RegistroSemantico {
 		return modulos.get(escopos.getLast());
 	}
 
+	public int getLabels() {
+		return labels;
+	}
+
+	public int incAndGetLabels() {
+		return ++labels;
+	}
+
 	public void limpar() {
 		arquivo = "";
 		codigo = new StringBuilder();
 		simbolos.clear();
 		modulos.clear();
+		labels = 0;
 	}
-
 }
