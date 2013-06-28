@@ -29,7 +29,7 @@ ret
 { .entrypoint 
 .locals (int64 i_lado, int64 i_area) 
 ldc.i8 1 
-call int64 teste_04::i_ler(int64) 
+call int64 entrada_04::i_ler(int64) 
 stloc i_lado 
 ldloc i_lado 
 ldloc i_lado 

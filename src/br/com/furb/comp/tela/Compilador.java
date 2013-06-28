@@ -62,6 +62,11 @@ public class Compilador {
 	private String statusAnterior;
 	private String arquivoAnterior;
 
+	private Lexico lexico;
+	private Sintatico sintatico;
+	private Semantico semantico;
+	private RegistroSemantico rs;
+
 	/**
 	 * Launch the application.
 	 */
@@ -168,15 +173,13 @@ public class Compilador {
 		scrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(statusBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE).addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
-				.addComponent(textMessages, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(statusBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+				.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE).addComponent(textMessages, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
 				.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(
-				groupLayout.createSequentialGroup().addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(textMessages, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
+				groupLayout.createSequentialGroup().addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE).addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(textMessages, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
 
 		frame.getContentPane().setLayout(groupLayout);
@@ -200,8 +203,7 @@ public class Compilador {
 
 	private int buttonCount = 0;
 
-	private void addButton(JPanel tb, ResourceManager aManager, String aImage, String aLabel, String aHotKeyDesc, int aAccessKey, int aModifier,
-			ActionListener aListener) {
+	private void addButton(JPanel tb, ResourceManager aManager, String aImage, String aLabel, String aHotKeyDesc, int aAccessKey, int aModifier, ActionListener aListener) {
 		JButton xButton = new JButton();
 		xButton.setBounds(BUTTONOFFSET + (BUTTONWIDTH * buttonCount), 0, BUTTONWIDTH, tb.getHeight());
 		xButton.setHorizontalAlignment(SwingConstants.CENTER);
@@ -263,7 +265,20 @@ public class Compilador {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				compilar();
+				if (isArquivoSalvo()) {
+					textMessages.setText("");
+					StringBuilder sbMessages = new StringBuilder();
+
+					try {
+						compilar();
+						sbMessages.append("programa compilado com sucesso");
+						System.out.println(rs.getCodigo().toString());
+					} catch (AnalysisError e1) {
+						sbMessages = new StringBuilder(e1.getLocalizedMessage());
+					}
+
+					textMessages.setText(sbMessages.toString());
+				}
 			}
 		};
 	}
@@ -423,8 +438,8 @@ public class Compilador {
 	private boolean isArquivoSalvo() {
 		if (getNomeArquivo().isEmpty() || statusBar.getStatusText().equals(MODIFICADO)) {
 			Object[] options = { "Sim", "Não" };
-			int n = JOptionPane.showOptionDialog(frame, "O arquivo não está salvo.\nPara compilar ou gerar código será necessário salvá-lo.\nSalvar?",
-					"Salvar arquivo?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			int n = JOptionPane.showOptionDialog(frame, "O arquivo não está salvo.\nPara compilar ou gerar código será necessário salvá-lo.\nSalvar?", "Salvar arquivo?",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 			if (n == JOptionPane.YES_OPTION) {
 				try {
 					salvar();
@@ -448,29 +463,15 @@ public class Compilador {
 		return "";
 	}
 
-	private void compilar() {
-		if (isArquivoSalvo()) {
-			textMessages.setText("");
-			StringBuilder sbMessages = new StringBuilder();
-			Lexico lexico = new Lexico();
-			Sintatico sintatico = new Sintatico();
-			Semantico semantico = new Semantico();
-			RegistroSemantico rs = new RegistroSemantico();
-			semantico.setRs(rs);
-			rs.setArquivo(getNomeArquivo());
-
-			lexico.setInput(textEditor.getText());
-
-			try {
-				sintatico.parse(lexico, semantico);
-				sbMessages.append("programa compilado com sucesso");
-				System.out.println(rs.getCodigo().toString());
-			} catch (AnalysisError e) {
-				sbMessages = new StringBuilder(e.getLocalizedMessage());
-			}
-
-			textMessages.setText(sbMessages.toString());
-		}
+	private void compilar() throws AnalysisError {
+		lexico = new Lexico();
+		sintatico = new Sintatico();
+		semantico = new Semantico();
+		rs = new RegistroSemantico();
+		lexico.setInput(textEditor.getText());
+		semantico.setRs(rs);
+		rs.setArquivo(getNomeArquivo());
+		sintatico.parse(lexico, semantico);
 	}
 
 }

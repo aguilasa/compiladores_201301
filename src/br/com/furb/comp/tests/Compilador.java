@@ -31,7 +31,7 @@ public class Compilador extends TestCase {
 		semantico.setRs(rs);
 		rs.setArquivo("entrada_01");
 		StringBuilder sbEntrada = new StringBuilder();
-		Utils.carregaArquivo("arquivos/entrada_01.txt", sbEntrada);
+		Utils.carregaArquivo("arquivos/entrada_01.ing", sbEntrada);
 		StringBuilder sbSaida = new StringBuilder();
 		Utils.carregaArquivo("arquivos/saida_01.txt", sbSaida);
 
@@ -54,7 +54,7 @@ public class Compilador extends TestCase {
 		semantico.setRs(rs);
 		rs.setArquivo("entrada_02");
 		StringBuilder sbEntrada = new StringBuilder();
-		Utils.carregaArquivo("arquivos/entrada_02.txt", sbEntrada);
+		Utils.carregaArquivo("arquivos/entrada_02.ing", sbEntrada);
 		StringBuilder sbSaida = new StringBuilder();
 		Utils.carregaArquivo("arquivos/saida_02.txt", sbSaida);
 
@@ -77,7 +77,7 @@ public class Compilador extends TestCase {
 		semantico.setRs(rs);
 		rs.setArquivo("entrada_03");
 		StringBuilder sbEntrada = new StringBuilder();
-		Utils.carregaArquivo("arquivos/entrada_03.txt", sbEntrada);
+		Utils.carregaArquivo("arquivos/entrada_03.ing", sbEntrada);
 		StringBuilder sbSaida = new StringBuilder();
 		Utils.carregaArquivo("arquivos/saida_03.txt", sbSaida);
 
@@ -100,7 +100,7 @@ public class Compilador extends TestCase {
 		semantico.setRs(rs);
 		rs.setArquivo("entrada_04");
 		StringBuilder sbEntrada = new StringBuilder();
-		Utils.carregaArquivo("arquivos/entrada_04.txt", sbEntrada);
+		Utils.carregaArquivo("arquivos/entrada_04.ing", sbEntrada);
 		StringBuilder sbSaida = new StringBuilder();
 		Utils.carregaArquivo("arquivos/saida_04.txt", sbSaida);
 
