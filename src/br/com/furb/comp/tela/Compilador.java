@@ -37,6 +37,8 @@ import javax.swing.text.DefaultEditorKit.CopyAction;
 import javax.swing.text.DefaultEditorKit.CutAction;
 import javax.swing.text.DefaultEditorKit.PasteAction;
 
+import org.apache.commons.io.FileUtils;
+
 import br.com.furb.comp.gals.AnalysisError;
 import br.com.furb.comp.gals.Lexico;
 import br.com.furb.comp.gals.RegistroSemantico;
@@ -293,10 +295,13 @@ public class Compilador {
 
 					try {
 						compilar();
+						String nome = getCaminhoArquivo() + getNomeArquivo() + ".il";
+						FileUtils.writeStringToFile(new File(nome), rs.getCodigo().toString());
 						sbMessages.append("código objeto gerado com sucesso");
-						System.out.println(rs.getCodigo().toString());
 					} catch (AnalysisError e1) {
 						sbMessages = new StringBuilder(e1.getLocalizedMessage());
+					} catch (IOException e1) {
+						sbMessages = new StringBuilder("falha na geração do arquivo de código");
 					}
 
 					textMessages.setText(sbMessages.toString());
@@ -471,6 +476,14 @@ public class Compilador {
 		File file = new File(statusBar.getArquivoText());
 		if (file.exists()) {
 			return file.getName().substring(0, file.getName().length() - 4);
+		}
+		return "";
+	}
+
+	private String getCaminhoArquivo() {
+		File file = new File(statusBar.getArquivoText());
+		if (file.exists()) {
+			return file.getPath().substring(0, file.getPath().length() - file.getName().length());
 		}
 		return "";
 	}
