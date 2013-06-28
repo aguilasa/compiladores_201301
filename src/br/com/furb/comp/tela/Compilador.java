@@ -272,7 +272,6 @@ public class Compilador {
 					try {
 						compilar();
 						sbMessages.append("programa compilado com sucesso");
-						System.out.println(rs.getCodigo().toString());
 					} catch (AnalysisError e1) {
 						sbMessages = new StringBuilder(e1.getLocalizedMessage());
 					}
@@ -288,7 +287,20 @@ public class Compilador {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textMessages.setText("geração de código ainda não foi implementada");
+				if (isArquivoSalvo()) {
+					textMessages.setText("");
+					StringBuilder sbMessages = new StringBuilder();
+
+					try {
+						compilar();
+						sbMessages.append("código objeto gerado com sucesso");
+						System.out.println(rs.getCodigo().toString());
+					} catch (AnalysisError e1) {
+						sbMessages = new StringBuilder(e1.getLocalizedMessage());
+					}
+
+					textMessages.setText(sbMessages.toString());
+				}
 			}
 		};
 	}
