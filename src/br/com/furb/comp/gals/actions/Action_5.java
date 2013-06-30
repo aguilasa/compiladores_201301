@@ -9,7 +9,6 @@ public class Action_5 implements IAction {
 
 	@Override
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
-		// TODO Auto-generated method stub
 		// geração de código
 		Modulo modulo = rs.getModuloAtual();
 		modulo.getCodigo().append("{").append("\n");

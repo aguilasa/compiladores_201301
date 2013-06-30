@@ -12,7 +12,6 @@ public class Action_34 implements IAction {
 		Modulo modulo = rs.getModuloAtual();
 
 		modulo.getCodigo().append("ldc.i8 ").append(token.getLexeme()).append("\n");
-
 	}
 
 }

@@ -8,8 +8,7 @@ public class Action_2 implements IAction {
 
 	@Override
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
-		// TODO Auto-generated method stub
-		
+		// TODO Aqui eu mudei um pouco e essa ação ficou sem "ação"
 	}
 
 }

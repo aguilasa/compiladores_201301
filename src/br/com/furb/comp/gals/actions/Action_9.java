@@ -11,7 +11,6 @@ public class Action_9 implements IAction {
 	public void execute(RegistroSemantico rs, Token token) throws SemanticError {
 		Modulo modulo = rs.getModuloAtual();
 		modulo.getIdentificadores().add(token);
-		//TODO
 	}
 
 }

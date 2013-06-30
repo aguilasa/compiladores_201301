@@ -16,7 +16,6 @@ public class Action_10 implements IAction {
 		String lexeme = identificador.getLexeme();
 
 		modulo.getCodigo().append("stloc ").append(lexeme).append("\n");
-
 	}
 
 }
