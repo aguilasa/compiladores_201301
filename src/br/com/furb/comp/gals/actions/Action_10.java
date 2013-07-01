@@ -13,9 +13,13 @@ public class Action_10 implements IAction {
 		Modulo modulo = rs.getModuloAtual();
 
 		Token identificador = modulo.getIdentificadores().pollLast();
+		String tipo = modulo.getTipos().pollLast();
+		if (!tipo.equalsIgnoreCase(identificador.getTipoMSIL())) {
+			throw new SemanticError(String.format("Erro na linha %s – tipos incompatíveis em comando de atribuição (%s, %s)", identificador.getLine(), identificador.getTipoMSIL(), tipo));
+		}
+
 		String lexeme = identificador.getLexeme();
 
 		modulo.getCodigo().append("stloc ").append(lexeme).append("\n");
 	}
-
 }

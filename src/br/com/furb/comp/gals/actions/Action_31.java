@@ -22,6 +22,7 @@ public class Action_31 implements IAction {
 			throw new SemanticError(mensagem, posicao, linha, identificador);
 		}
 
+		modulo.getTipos().add(identificador.getTipoMSIL());
 		String ld = "ldloc ";
 		if (modulo.getParametros().contains(lexeme)) {
 			ld = "ldarg ";

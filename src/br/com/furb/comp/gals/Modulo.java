@@ -5,14 +5,13 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 public class Modulo {
 	private String identificador;
 	private boolean main = false;
 	private StringBuilder codigo = new StringBuilder();
 	private String operador = "";
-	private Stack<String> tipos = new Stack<String>();
+	private LinkedList<String> tipos = new LinkedList<String>();
 	private LinkedList<String> labels = new LinkedList<String>();
 	private LinkedList<Token> identificadores = new LinkedList<Token>();
 	private Map<String, Simbolo> simbolos = new LinkedHashMap<String, Simbolo>();
@@ -39,7 +38,7 @@ public class Modulo {
 		this.operador = operador;
 	}
 
-	public Stack<String> getTipos() {
+	public LinkedList<String> getTipos() {
 		return tipos;
 	}
 

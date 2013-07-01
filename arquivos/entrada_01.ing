@@ -1,5 +1,6 @@
 main module [
 : i_lado, i_area;
+
 in (i_lado);
 i_area <- i_lado * i_lado;
 out (i_area);
